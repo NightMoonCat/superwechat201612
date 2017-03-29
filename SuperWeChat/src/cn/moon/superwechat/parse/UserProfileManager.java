@@ -4,14 +4,24 @@ import android.content.Context;
 
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
-import cn.moon.superwechat.SuperWeChatHelper;
-import cn.moon.superwechat.utils.PreferenceManager;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.moon.superwechat.SuperWeChatHelper;
+import cn.moon.superwechat.db.IUserModel;
+import cn.moon.superwechat.db.OnCompleteListener;
+import cn.moon.superwechat.db.UserModel;
+import cn.moon.superwechat.utils.L;
+import cn.moon.superwechat.utils.PreferenceManager;
+import cn.moon.superwechat.utils.Result;
+import cn.moon.superwechat.utils.ResultUtils;
+
 public class UserProfileManager {
+	private static final String TAG = "UserProfileManager";
+	IUserModel mUserModel;
 
 	/**
 	 * application context
@@ -32,6 +42,7 @@ public class UserProfileManager {
 	private boolean isSyncingContactInfosWithServer = false;
 
 	private EaseUser currentUser;
+	private User currentAppUser;
 
 	public UserProfileManager() {
 	}
@@ -40,6 +51,8 @@ public class UserProfileManager {
 		if (sdkInited) {
 			return true;
 		}
+		this.appContext = context;
+		mUserModel = new UserModel();
 		ParseManager.getInstance().onInit(context);
 		syncContactInfosListeners = new ArrayList<SuperWeChatHelper.DataSyncListener>();
 		sdkInited = true;
@@ -139,6 +152,27 @@ public class UserProfileManager {
 		return avatarUrl;
 	}
 
+	public void asyncGetCurrentAppUserInfo() {
+		mUserModel.loadUserInfo(appContext, EMClient.getInstance().getCurrentUser(),
+				new OnCompleteListener<String>() {
+					@Override
+					public void onSuccess(String s) {
+						L.e(TAG,"s="+s);
+						if (s != null) {
+							Result result = ResultUtils.getResultFromJson(s, User.class);
+							if (result != null && result.isRetMsg()) {
+								currentAppUser = (User) result.getRetData();
+								L.e(TAG,"asyncGetCurrentAppUserInfo,userInfo = "+ currentAppUser.toString());
+							}
+						}
+					}
+
+					@Override
+					public void onError(String error) {
+						L.e(TAG,"error="+error);
+					}
+				});
+	}
 	public void asyncGetCurrentUserInfo() {
 		ParseManager.getInstance().asyncGetCurrentUserInfo(new EMValueCallBack<EaseUser>() {
 
