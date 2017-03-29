@@ -7,6 +7,7 @@ import cn.moon.superwechat.R;
 import cn.moon.superwechat.ui.GuideActivity;
 import cn.moon.superwechat.ui.LoginActivity;
 import cn.moon.superwechat.ui.MainActivity;
+import cn.moon.superwechat.ui.RegisterActivity;
 
 /**
  * Created by Moon on 2017/3/16.
@@ -31,8 +32,14 @@ public class MFGT {
     public static void gotoMain(Activity activity) {
         startActivity(activity, MainActivity.class);
     }
+    public static void gotoRegister(Activity activity) {
+        startActivity(activity, RegisterActivity.class);
+    }
     public static void gotoGuide(Activity activity) {
         startActivity(activity, GuideActivity.class);
+    }
+    public static void gotoLogin(Activity activity) {
+        startActivity(activity, LoginActivity.class);
     }
 
 
