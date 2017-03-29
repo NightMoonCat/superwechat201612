@@ -13,19 +13,19 @@
  */
 package cn.moon.superwechat.ui;
 
-import com.hyphenate.EMError;
-import com.hyphenate.chat.EMClient;
-import cn.moon.superwechat.SuperWeChatHelper;
-import cn.moon.superwechat.R;
-
-import com.hyphenate.exceptions.HyphenateException;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
+
+import cn.moon.superwechat.R;
+import cn.moon.superwechat.SuperWeChatHelper;
 
 /**
  * register screen
@@ -35,6 +35,7 @@ public class RegisterActivity extends BaseActivity {
 	private EditText userNameEditText;
 	private EditText passwordEditText;
 	private EditText confirmPwdEditText;
+	private EditText userNickEditText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +44,22 @@ public class RegisterActivity extends BaseActivity {
 		userNameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(R.id.password);
 		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
+		userNickEditText = (EditText) findViewById(R.id.userNick);
 	}
 
 	public void register(View view) {
 		final String username = userNameEditText.getText().toString().trim();
+		final String userNick = userNickEditText.getText().toString().trim();
 		final String pwd = passwordEditText.getText().toString().trim();
 		String confirm_pwd = confirmPwdEditText.getText().toString().trim();
+
 		if (TextUtils.isEmpty(username)) {
 			Toast.makeText(this, getResources().getString(R.string.User_name_cannot_be_empty), Toast.LENGTH_SHORT).show();
 			userNameEditText.requestFocus();
+			return;
+		} else if (TextUtils.isEmpty(userNick)) {
+			Toast.makeText(this, getResources().getString(R.string.UserNick_cannot_be_empty), Toast.LENGTH_SHORT).show();
+			passwordEditText.requestFocus();
 			return;
 		} else if (TextUtils.isEmpty(pwd)) {
 			Toast.makeText(this, getResources().getString(R.string.Password_cannot_be_empty), Toast.LENGTH_SHORT).show();
