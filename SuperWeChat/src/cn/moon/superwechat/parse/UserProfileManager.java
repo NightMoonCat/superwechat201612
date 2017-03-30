@@ -122,6 +122,7 @@ public class UserProfileManager {
 	public synchronized void reset() {
 		isSyncingContactInfosWithServer = false;
 		currentUser = null;
+		currentAppUser = null;
 		PreferenceManager.getInstance().removeCurrentUserInfo();
 	}
 
@@ -135,6 +136,17 @@ public class UserProfileManager {
 		}
 		return currentUser;
 	}
+	public synchronized User getCurrentAppUserInfo() {
+		if (currentAppUser != null) {
+			String username = EMClient.getInstance().getCurrentUser();
+			currentAppUser = new User(username);
+			String nick = getCurrentUserNick();
+			currentAppUser.setMUserNick((nick != null) ? nick : username);
+		}
+		return currentAppUser;
+	}
+
+
 
 	public boolean updateCurrentUserNickName(final String nickname) {
 		boolean isSuccess = ParseManager.getInstance().updateParseNickName(nickname);
@@ -161,8 +173,16 @@ public class UserProfileManager {
 						if (s != null) {
 							Result result = ResultUtils.getResultFromJson(s, User.class);
 							if (result != null && result.isRetMsg()) {
+
 								currentAppUser = (User) result.getRetData();
+
 								L.e(TAG,"asyncGetCurrentAppUserInfo,userInfo = "+ currentAppUser.toString());
+
+								if (currentAppUser != null) {
+									L.e(TAG,"asyncGetCurrentAppUserInfo,userNick = "+currentAppUser.getMUserNick());
+									setCurrentAppUserNIck(currentAppUser.getMUserNick());
+									setCurrentUserAppAvatar(currentAppUser.getAvatar());
+								}
 							}
 						}
 					}
@@ -194,11 +214,22 @@ public class UserProfileManager {
 	public void asyncGetUserInfo(final String username,final EMValueCallBack<EaseUser> callback){
 		ParseManager.getInstance().asyncGetUserInfo(username, callback);
 	}
+	private void setCurrentAppUserNIck(String nickName) {
+		getCurrentAppUserInfo().setMUserNick(nickName);
+		L.e(TAG,"setCurrentAppUserNIck,nickName="+nickName);
+		PreferenceManager.getInstance().setCurrentUserNick(nickName);
+
+	}
 	private void setCurrentUserNick(String nickname) {
 		getCurrentUserInfo().setNick(nickname);
 		PreferenceManager.getInstance().setCurrentUserNick(nickname);
 	}
 
+	private void setCurrentUserAppAvatar(String avatar) {
+		getCurrentAppUserInfo().setAvatar(avatar);
+		L.e(TAG,"setCurrentUserAppAvatar,avatar="+avatar);
+		PreferenceManager.getInstance().setCurrentUserAvatar(avatar);
+	}
 	private void setCurrentUserAvatar(String avatar) {
 		getCurrentUserInfo().setAvatar(avatar);
 		PreferenceManager.getInstance().setCurrentUserAvatar(avatar);

@@ -177,16 +177,21 @@ public class RegisterActivity extends BaseActivity {
                     new OnCompleteListener<String>() {
                         @Override
                         public void onSuccess(String s) {
+                            boolean success = false;
                             if (s != null) {
                                 Result result = ResultUtils.getResultFromJson(s, String.class);
                                 if (result != null) {
                                     if (result.isRetMsg()) {
+                                        success = true;
                                         registerEMServer();
                                     } else if (result.getRetCode() == I.MSG_REGISTER_USERNAME_EXISTS) {
                                         CommonUtils.showShortToast(R.string.User_already_exists);
                                     } else {
                                         CommonUtils.showShortToast(R.string.Registration_failed);
                                     }
+                                }
+                                if (!success) {
+                                    pd.dismiss();
                                 }
                             }
                         }
