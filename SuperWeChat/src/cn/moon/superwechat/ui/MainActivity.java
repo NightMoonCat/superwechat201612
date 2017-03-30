@@ -44,19 +44,20 @@ import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMMessage;
-import cn.moon.superwechat.Constant;
-import cn.moon.superwechat.SuperWeChatHelper;
-import cn.moon.superwechat.R;
-import cn.moon.superwechat.db.InviteMessgeDao;
-import cn.moon.superwechat.db.UserDao;
-import cn.moon.superwechat.runtimepermissions.PermissionsManager;
-import cn.moon.superwechat.runtimepermissions.PermissionsResultAction;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.EMLog;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
 import java.util.List;
+
+import cn.moon.superwechat.Constant;
+import cn.moon.superwechat.R;
+import cn.moon.superwechat.SuperWeChatHelper;
+import cn.moon.superwechat.db.InviteMessgeDao;
+import cn.moon.superwechat.db.UserDao;
+import cn.moon.superwechat.runtimepermissions.PermissionsManager;
+import cn.moon.superwechat.runtimepermissions.PermissionsResultAction;
 
 @SuppressLint("NewApi")
 public class MainActivity extends BaseActivity {
@@ -88,6 +89,62 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		savePower();
+		checkAccount(savedInstanceState);
+		setContentView(R.layout.em_activity_main);
+		// runtime permission for android 6.0, just require all permissions here for simple
+		requestPermissions();
+		initView();
+		umengInit();
+
+		showExceptionDialogFromIntent(getIntent());
+
+		inviteMessgeDao = new InviteMessgeDao(this);
+		UserDao userDao = new UserDao(this);
+
+		initFragment();
+
+		//register broadcast receiver to receive the change of group from SuperWeChatHelper
+		registerBroadcastReceiver();
+
+		EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
+		//debug purpose only
+        registerInternalDebugReceiver();
+	}
+
+	private void initFragment() {
+		conversationListFragment = new ConversationListFragment();
+		contactListFragment = new ContactListFragment();
+		SettingsFragment settingFragment = new SettingsFragment();
+		fragments = new Fragment[] { conversationListFragment, contactListFragment, settingFragment};
+
+		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, conversationListFragment)
+				.add(R.id.fragment_container, contactListFragment).hide(contactListFragment).show(conversationListFragment)
+				.commit();
+	}
+
+	private void umengInit() {
+		//umeng api
+		MobclickAgent.updateOnlineConfig(this);
+		UmengUpdateAgent.setUpdateOnlyWifi(false);
+		UmengUpdateAgent.update(this);
+	}
+
+	private void checkAccount(Bundle savedInstanceState) {
+		//make sure activity will not in background if user is logged into another device or removed
+		if (savedInstanceState != null && savedInstanceState.getBoolean(Constant.ACCOUNT_REMOVED, false)) {
+			SuperWeChatHelper.getInstance().logout(false,null);
+			finish();
+			startActivity(new Intent(this, LoginActivity.class));
+			return;
+		} else if (savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false)) {
+			finish();
+			startActivity(new Intent(this, LoginActivity.class));
+			return;
+		}
+	}
+
+	private void savePower() {
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 		    String packageName = getPackageName();
 		    PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
@@ -98,49 +155,6 @@ public class MainActivity extends BaseActivity {
 		        startActivity(intent);
 		    }
 		}
-		
-		//make sure activity will not in background if user is logged into another device or removed
-		if (savedInstanceState != null && savedInstanceState.getBoolean(Constant.ACCOUNT_REMOVED, false)) {
-		    SuperWeChatHelper.getInstance().logout(false,null);
-			finish();
-			startActivity(new Intent(this, LoginActivity.class));
-			return;
-		} else if (savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false)) {
-			finish();
-			startActivity(new Intent(this, LoginActivity.class));
-			return;
-		}
-		setContentView(R.layout.em_activity_main);
-		// runtime permission for android 6.0, just require all permissions here for simple
-		requestPermissions();
-
-		initView();
-
-		//umeng api
-		MobclickAgent.updateOnlineConfig(this);
-		UmengUpdateAgent.setUpdateOnlyWifi(false);
-		UmengUpdateAgent.update(this);
-
-		showExceptionDialogFromIntent(getIntent());
-
-		inviteMessgeDao = new InviteMessgeDao(this);
-		UserDao userDao = new UserDao(this);
-		conversationListFragment = new ConversationListFragment();
-		contactListFragment = new ContactListFragment();
-		SettingsFragment settingFragment = new SettingsFragment();
-		fragments = new Fragment[] { conversationListFragment, contactListFragment, settingFragment};
-
-		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, conversationListFragment)
-				.add(R.id.fragment_container, contactListFragment).hide(contactListFragment).show(conversationListFragment)
-				.commit();
-
-		//register broadcast receiver to receive the change of group from SuperWeChatHelper
-		registerBroadcastReceiver();
-		
-		
-		EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
-		//debug purpose only
-        registerInternalDebugReceiver();
 	}
 
 	@TargetApi(23)
