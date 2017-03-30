@@ -350,7 +350,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onPageSelected(int position) {
-
+        mLayoutTabhost.setChecked(position);
     }
 
     @Override
@@ -360,7 +360,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onCheckedChange(int checkedPosition, boolean byUser) {
-
+        mLayoutViewpage.setCurrentItem(checkedPosition);
     }
 
     public class MyContactListener implements EMContactListener {
