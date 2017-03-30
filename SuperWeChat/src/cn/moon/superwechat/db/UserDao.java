@@ -16,6 +16,7 @@ package cn.moon.superwechat.db;
 import android.content.Context;
 
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.domain.User;
 
 import java.util.List;
 import java.util.Map;
@@ -40,8 +41,8 @@ public class UserDao {
 	public static final String USER_TABLE_NAME = "t_superwechat_user";
 	public static final String USER_COLUMN_NAME = "m_user_name";
 	public static final String USER_COLUMN_NICK = "m_user_nick";
+	public static final String USER_COLUMN_NAME_AVATAR_NAME = "m_user_avatar_name";
 	public static final String USER_COLUMN_AVATAR_ID = "m_user_avatar_id";
-	public static final String USER_COLUMN_AVATAR_NAME = "m_user_avatar_name";
 	public static final String USER_COLUMN_AVATAR_PATH = "m_user_avatar_path";
 	public static final String USER_COLUMN_AVATAR_SUFFIX = "m_user_avatar_suffix";
 	public static final String USER_COLUMN_AVATAR_TYPE = "m_user_avatar_type";
@@ -87,8 +88,48 @@ public class UserDao {
 	public void saveContact(EaseUser user){
 	    SuperWeChatDBManager.getInstance().saveContact(user);
 	}
-	
-	public void setDisabledGroups(List<String> groups){
+
+
+
+
+
+    /**
+     * save contact list
+     *
+     * @param contactList
+     */
+    public void saveAppContactList(List<User> contactList) {
+        SuperWeChatDBManager.getInstance().saveAppContactList(contactList);
+    }
+
+    /**
+     * get contact list
+     *
+     * @return
+     */
+    public Map<String, User> getAppContactList() {
+        return SuperWeChatDBManager.getInstance().getAppContactList();
+    }
+
+    /**
+     * delete a contact
+     * @param username
+     */
+    public void deleteAppContact(String username){
+        SuperWeChatDBManager.getInstance().deleteAppContact(username);
+    }
+
+    /**
+     * save a contact
+     * @param user
+     */
+    public void saveAppContact(User user){
+        SuperWeChatDBManager.getInstance().saveAppContact(user);
+    }
+
+
+
+    public void setDisabledGroups(List<String> groups){
 	    SuperWeChatDBManager.getInstance().setDisabledGroups(groups);
     }
     

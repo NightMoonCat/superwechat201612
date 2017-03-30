@@ -3,6 +3,7 @@ package cn.moon.superwechat;
 import android.content.Context;
 
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 import cn.moon.superwechat.db.UserDao;
 import cn.moon.superwechat.domain.RobotUser;
+import cn.moon.superwechat.utils.L;
 import cn.moon.superwechat.utils.PreferenceManager;
 
 public class SuperWeChatModel {
@@ -299,5 +301,23 @@ public class SuperWeChatModel {
         SpakerOn,
         DisabledGroups,
         DisabledIds
+    }
+
+    public boolean saveAppContactList(List<User> contactList) {
+        UserDao dao = new UserDao(context);
+        dao.saveAppContactList(contactList);
+        return true;
+    }
+
+    public Map<String, User> getAppContactList() {
+        UserDao dao = new UserDao(context);
+        return dao.getAppContactList();
+    }
+
+    public void saveAppContact(User user){
+        L.e("main","user = 111"+user.toString());
+
+        UserDao dao = new UserDao(context);
+        dao.saveAppContact(user);
     }
 }

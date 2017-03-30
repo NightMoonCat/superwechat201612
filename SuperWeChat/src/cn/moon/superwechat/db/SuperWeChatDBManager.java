@@ -20,6 +20,7 @@ import cn.moon.superwechat.Constant;
 import cn.moon.superwechat.SuperWeChatApplication;
 import cn.moon.superwechat.domain.InviteMessage;
 import cn.moon.superwechat.domain.RobotUser;
+import cn.moon.superwechat.utils.L;
 
 public class SuperWeChatDBManager {
     static private SuperWeChatDBManager dbMgr = new SuperWeChatDBManager();
@@ -390,7 +391,7 @@ public class SuperWeChatDBManager {
      *
      * @param contactList
      */
-    synchronized public void saveContactAppList(List<User> contactList) {
+    synchronized public void saveAppContactList(List<User> contactList) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db.isOpen()) {
             db.delete(UserDao.USER_TABLE_NAME, null, null);
@@ -400,8 +401,6 @@ public class SuperWeChatDBManager {
                 values.put(UserDao.USER_COLUMN_NAME, user.getMUserName());
                 if (user.getMUserNick() != null)
                     values.put(UserDao.USER_COLUMN_NICK, user.getMUserNick());
-                if (user.getAvatar() != null)
-                    values.put(UserDao.USER_COLUMN_AVATAR_NAME, user.getAvatar());
                 if (user.getMAvatarId() != null)
                     values.put(UserDao.USER_COLUMN_AVATAR_ID, user.getMAvatarId());
                 if (user.getMAvatarPath() != null)
@@ -422,7 +421,7 @@ public class SuperWeChatDBManager {
      *
      * @return
      */
-    synchronized public Map<String, User> getContactAppList() {
+    synchronized public Map<String, User> getAppContactList() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Map<String, User> users = new Hashtable<>();
         if (db.isOpen()) {
@@ -430,16 +429,16 @@ public class SuperWeChatDBManager {
             while (cursor.moveToNext()) {
                 String username = cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_NAME));
                 User user = new User(username);
-
                 user.setMUserNick(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_NICK)));
-                user.setAvatar(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_NAME)));
                 user.setMAvatarId(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_ID)));
                 user.setMAvatarPath(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_PATH)));
                 user.setMAvatarSuffix(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_SUFFIX)));
                 user.setMAvatarType(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_TYPE)));
-                user.setMAvatarLastUpdateTime(cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_NICK)));
+                user.setMAvatarLastUpdateTime(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_LASTUPDATE_TIME)));
                 EaseCommonUtils.setAppUserInitialLetter(user);
                 users.put(username, user);
+
+
             }
             cursor.close();
         }
@@ -464,14 +463,13 @@ public class SuperWeChatDBManager {
      * @param user
      */
     synchronized public void saveAppContact(User user) {
+        L.e("main",user.toString());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(UserDao.USER_COLUMN_NAME, user.getMUserName());
         if (user.getMUserNick() != null)
             values.put(UserDao.USER_COLUMN_NICK, user.getMUserNick());
-        if (user.getAvatar() != null)
-            values.put(UserDao.USER_COLUMN_AVATAR_NAME, user.getAvatar());
         if (user.getMAvatarId() != null)
             values.put(UserDao.USER_COLUMN_AVATAR_ID, user.getMAvatarId());
         if (user.getMAvatarPath() != null)
@@ -483,7 +481,7 @@ public class SuperWeChatDBManager {
         if (user.getMAvatarLastUpdateTime() != null)
             values.put(UserDao.USER_COLUMN_AVATAR_LASTUPDATE_TIME, user.getMAvatarLastUpdateTime());
         if (db.isOpen()) {
-            db.replace(UserDao.USER_COLUMN_NAME, null, values);
+            db.replace(UserDao.USER_TABLE_NAME, null, values);
         }
     }
 }
