@@ -3,12 +3,16 @@ package cn.moon.superwechat.utils;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.easemob.redpacketui.utils.RedPacketUtil;
+import com.hyphenate.chat.EMClient;
+
 import cn.moon.superwechat.R;
 import cn.moon.superwechat.ui.GuideActivity;
 import cn.moon.superwechat.ui.LoginActivity;
 import cn.moon.superwechat.ui.MainActivity;
 import cn.moon.superwechat.ui.RegisterActivity;
 import cn.moon.superwechat.ui.SettingsActivity;
+import cn.moon.superwechat.ui.UserProfileActivity;
 
 /**
  * Created by Moon on 2017/3/16.
@@ -56,5 +60,14 @@ public class MFGT {
 
     public static void gotoSetting(Activity activity) {
         startActivity(activity,SettingsActivity.class);
+    }
+
+    public static void gotoUserProfile(Activity activity) {
+        startActivity(activity,new Intent(activity, UserProfileActivity.class).putExtra("setting", true)
+                .putExtra("username", EMClient.getInstance().getCurrentUser()));
+    }
+
+    public static void gotoChange(Activity activity) {
+        RedPacketUtil.startChangeActivity(activity);
     }
 }

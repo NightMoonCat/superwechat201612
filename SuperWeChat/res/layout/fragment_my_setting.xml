@@ -6,9 +6,8 @@
               android:background="#ccc"
               tools:context="cn.moon.superwechat.ui.MySettingFragment">
 
-    <include layout="@layout/title_menu_all"/>
-
     <RelativeLayout
+        android:id="@+id/layout_info_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff">

@@ -69,10 +69,18 @@ public class MySettingFragment extends Fragment {
     }
 
 
-    @OnClick(R.id.layout_setting)
-    public void onClick() {
-        MFGT.gotoSetting(getActivity());
+    @OnClick({R.id.layout_info_setting, R.id.layout_money, R.id.layout_setting})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.layout_info_setting:
+                MFGT.gotoUserProfile(getActivity());
+                break;
+            case R.id.layout_money:
+                MFGT.gotoChange(getActivity());
+                break;
+            case R.id.layout_setting:
+                MFGT.gotoSetting(getActivity());
+                break;
+        }
     }
-
-
 }
