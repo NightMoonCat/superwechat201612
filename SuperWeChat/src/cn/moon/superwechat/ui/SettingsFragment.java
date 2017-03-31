@@ -37,21 +37,22 @@ import com.easemob.redpacketui.utils.RedPacketUtil;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
-import cn.moon.superwechat.Constant;
-import cn.moon.superwechat.SuperWeChatHelper;
-import cn.moon.superwechat.SuperWeChatModel;
-import cn.moon.superwechat.R;
-import cn.moon.superwechat.utils.PreferenceManager;
 import com.hyphenate.easeui.widget.EaseSwitchButton;
 import com.hyphenate.util.EMLog;
 
 import java.io.File;
 import java.util.ArrayList;
 
+import cn.moon.superwechat.Constant;
+import cn.moon.superwechat.R;
+import cn.moon.superwechat.SuperWeChatHelper;
+import cn.moon.superwechat.SuperWeChatModel;
+import cn.moon.superwechat.utils.PreferenceManager;
+
 /**
  * settings screen
- * 
- * 
+ *
+ *
  */
 @SuppressWarnings({"FieldCanBeLocal"})
 public class SettingsFragment extends Fragment implements OnClickListener {
@@ -80,16 +81,16 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 	private TextView textview1, textview2;
 
 	private LinearLayout blacklistContainer;
-	
+
 	private LinearLayout userProfileContainer;
-	
+
 	/**
 	 * logout
 	 */
 	private Button logoutBtn;
 
 	private RelativeLayout rl_switch_chatroom_leave;
-	
+
     private RelativeLayout rl_switch_delete_msg_when_exit_group;
     private RelativeLayout rl_switch_auto_accept_group_invitation;
     private RelativeLayout rl_switch_adaptive_video_encode;
@@ -107,7 +108,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 	 * display name for APNs
 	 */
 	private LinearLayout pushNick;
-	
+
     private EaseSwitchButton notifySwitch;
     private EaseSwitchButton soundSwitch;
     private EaseSwitchButton vibrateSwitch;
@@ -121,7 +122,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     private SuperWeChatModel settingsModel;
     private EMOptions chatOptions;
 	private EditText edit_custom_appkey;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.em_fragment_conversation_settings, container, false);
@@ -147,7 +148,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 		ll_call_option = (LinearLayout) getView().findViewById(R.id.ll_call_option);
 
 		rl_mail_log = (RelativeLayout) getView().findViewById(R.id.rl_mail_log);
-		
+
 		notifySwitch = (EaseSwitchButton) getView().findViewById(R.id.switch_notification);
 		soundSwitch = (EaseSwitchButton) getView().findViewById(R.id.switch_sound);
 		vibrateSwitch = (EaseSwitchButton) getView().findViewById(R.id.switch_vibrate);
@@ -166,7 +167,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 
 		textview1 = (TextView) getView().findViewById(R.id.textview1);
 		textview2 = (TextView) getView().findViewById(R.id.textview2);
-		
+
 		blacklistContainer = (LinearLayout) getView().findViewById(R.id.ll_black_list);
 		userProfileContainer = (LinearLayout) getView().findViewById(R.id.ll_user_profile);
 		llDiagnose=(LinearLayout) getView().findViewById(R.id.ll_diagnose);
@@ -175,7 +176,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 
 		settingsModel = SuperWeChatHelper.getInstance().getModel();
 		chatOptions = EMClient.getInstance().getOptions();
-		
+
 		blacklistContainer.setOnClickListener(this);
 		userProfileContainer.setOnClickListener(this);
 		rl_switch_notification.setOnClickListener(this);
@@ -231,20 +232,20 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 		}else{
 		    ownerLeaveSwitch.closeSwitch();
 		}
-		
+
 		// delete messages when exit group?
 		if(settingsModel.isDeleteMessagesAsExitGroup()){
 		    switch_delete_msg_when_exit_group.openSwitch();
 		} else {
 		    switch_delete_msg_when_exit_group.closeSwitch();
 		}
-		
+
 		if (settingsModel.isAutoAcceptGroupInvitation()) {
 		    switch_auto_accept_group_invitation.openSwitch();
 		} else {
 		    switch_auto_accept_group_invitation.closeSwitch();
 		}
-		
+
 		if (settingsModel.isAdaptiveVideoEncode()) {
             switch_adaptive_video_encode.openSwitch();
 			EMClient.getInstance().callManager().getCallOptions().enableFixedVideoResolution(false);
@@ -279,7 +280,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 		});
 	}
 
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -437,7 +438,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 		pd.setCanceledOnTouchOutside(false);
 		pd.show();
 		SuperWeChatHelper.getInstance().logout(false,new EMCallBack() {
-			
+
 			@Override
 			public void onSuccess() {
 				getActivity().runOnUiThread(new Runnable() {
@@ -446,20 +447,20 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 						// show login screen
 						((MainActivity) getActivity()).finish();
 						startActivity(new Intent(getActivity(), LoginActivity.class));
-						
+
 					}
 				});
 			}
-			
+
 			@Override
 			public void onProgress(int progress, String status) {
-				
+
 			}
-			
+
 			@Override
 			public void onError(int code, String message) {
 				getActivity().runOnUiThread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
@@ -471,7 +472,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 		});
 	}
 
-	
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
     	super.onSaveInstanceState(outState);
