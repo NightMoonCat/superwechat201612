@@ -503,6 +503,12 @@
 
         <activity android:name=".ui.GuideActivity">
         </activity>
+        <!-- WebView相关 -->
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide">
+        </activity>
     </application>
 
 </manifest>

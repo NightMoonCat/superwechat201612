@@ -212,6 +212,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //		mTabs[2] = (Button) findViewById(R.id.btn_setting);
 //		// select first tab
 //		mTabs[0].setSelected(true);
+        mTxtLeft.setVisibility(View.VISIBLE);
     }
 
     /**

@@ -8,6 +8,7 @@ import cn.moon.superwechat.ui.GuideActivity;
 import cn.moon.superwechat.ui.LoginActivity;
 import cn.moon.superwechat.ui.MainActivity;
 import cn.moon.superwechat.ui.RegisterActivity;
+import cn.moon.superwechat.ui.SettingsActivity;
 
 /**
  * Created by Moon on 2017/3/16.
@@ -53,4 +54,7 @@ public class MFGT {
         activity.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 
+    public static void gotoSetting(Activity activity) {
+        startActivity(activity,SettingsActivity.class);
+    }
 }

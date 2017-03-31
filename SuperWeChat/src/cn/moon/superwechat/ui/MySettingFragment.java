@@ -15,12 +15,15 @@ import com.hyphenate.easeui.utils.EaseUserUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import cn.moon.superwechat.Constant;
 import cn.moon.superwechat.R;
+import cn.moon.superwechat.utils.MFGT;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MySettingFragment extends Fragment implements View.OnClickListener {
+public class MySettingFragment extends Fragment {
 
 
     @BindView(R.id.ivAvatar)
@@ -51,13 +54,25 @@ public class MySettingFragment extends Fragment implements View.OnClickListener 
     private void initData() {
         String userName = EMClient.getInstance().getCurrentUser();
         mTvUserName.setText(userName);
-        EaseUserUtils.setAppUserNick(userName,mTvNick);
-        EaseUserUtils.setAppUserAvatar(getContext(),userName,mIvAvatar);
-
+        EaseUserUtils.setAppUserNick(userName, mTvNick);
+        EaseUserUtils.setAppUserAvatar(getContext(), userName, mIvAvatar);
     }
 
     @Override
-    public void onClick(View view) {
-
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (((MainActivity) getActivity()).isConflict) {
+            outState.putBoolean("isConflict", true);
+        } else if (((MainActivity) getActivity()).getCurrentAccountRemoved()) {
+            outState.putBoolean(Constant.ACCOUNT_REMOVED, true);
+        }
     }
+
+
+    @OnClick(R.id.layout_setting)
+    public void onClick() {
+        MFGT.gotoSetting(getActivity());
+    }
+
+
 }
