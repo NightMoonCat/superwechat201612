@@ -132,7 +132,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private void initFragment() {
         conversationListFragment = new ConversationListFragment();
         contactListFragment = new ContactListFragment();
-        SettingsFragment settingFragment = new SettingsFragment();
+        MySettingFragment settingFragment = new MySettingFragment();
         fragments = new Fragment[]{conversationListFragment, contactListFragment, settingFragment};
 
 //		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, conversationListFragment)
