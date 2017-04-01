@@ -8,6 +8,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.domain.User;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -169,7 +170,8 @@ public class UserProfileManager {
 
                             }
                         }
-                        appContext.sendBroadcast(new Intent(I.REQUEST_UPDATE_USER_NICK).putExtra(I.User.NICK,updatenick));
+                        appContext.sendBroadcast(new Intent(I.REQUEST_UPDATE_USER_NICK)
+                                .putExtra(I.User.NICK,updatenick));
 
                     }
 
@@ -184,12 +186,39 @@ public class UserProfileManager {
 
 
 
-    public String uploadUserAvatar(byte[] data) {
-        String avatarUrl = ParseManager.getInstance().uploadParseAvatar(data);
-        if (avatarUrl != null) {
-            setCurrentUserAvatar(avatarUrl);
-        }
-        return avatarUrl;
+    public void uploadUserAvatar(File file) {
+        mUserModel.updateAvatar(appContext, EMClient.getInstance().getCurrentUser(), file,
+                new OnCompleteListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        boolean success = false;
+                        if (s != null) {
+                            Result result = ResultUtils.getResultFromJson(s, User.class);
+                            if (result != null && result.isRetMsg()) {
+                                User user = (User) result.getRetData();
+                                if (user != null) {
+                                    success = true;
+                                    setCurrentAppUserAvatar(user.getAvatar());
+                                    SuperWeChatHelper.getInstance().saveAppContact(user);
+                                }
+                            }
+                        }
+                        appContext.sendBroadcast(new Intent(I.REQUEST_UPDATE_AVATAR)
+                                .putExtra(I.Avatar.UPDATE_TIME,success));
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        appContext.sendBroadcast(new Intent(I.REQUEST_UPDATE_AVATAR)
+                                .putExtra(I.Avatar.UPDATE_TIME,false));
+                    }
+                });
+
+//        String avatarUrl = ParseManager.getInstance().uploadParseAvatar(data);
+//        if (avatarUrl != null) {
+//            setCurrentUserAvatar(avatarUrl);
+//        }
+//        return avatarUrl;
     }
 
     public void asyncGetCurrentAppUserInfo() {
@@ -202,16 +231,16 @@ public class UserProfileManager {
                             Result result = ResultUtils.getResultFromJson(s, User.class);
                             if (result != null && result.isRetMsg()) {
 
-                                currentAppUser = (User) result.getRetData();
+                                User user  = (User) result.getRetData();
 
-                                L.e(TAG, "asyncGetCurrentAppUserInfo,userInfo = " + currentAppUser.toString());
+                                L.e(TAG, "asyncGetCurrentAppUserInfo,userInfo = " + user.toString());
 
-                                if (currentAppUser != null) {
-                                    L.e(TAG, "asyncGetCurrentAppUserInfo,userNick = " + currentAppUser.getMUserNick());
-
-                                    setCurrentAppUserNick(currentAppUser.getMUserNick());
-                                    setCurrentAppUserAvatar(currentAppUser.getAvatar());
-                                    SuperWeChatHelper.getInstance().saveAppContact(currentAppUser);
+                                if (user != null) {
+                                    currentAppUser = user;
+                                    L.e(TAG, "asyncGetCurrentAppUserInfo,userNick = " + user.getMUserNick());
+                                    setCurrentAppUserNick(user.getMUserNick());
+                                    setCurrentAppUserAvatar(user.getAvatar());
+                                    SuperWeChatHelper.getInstance().saveAppContact(user);
 
                                 }
                             }

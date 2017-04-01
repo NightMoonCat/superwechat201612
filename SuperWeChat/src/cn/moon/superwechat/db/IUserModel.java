@@ -18,8 +18,8 @@ public interface IUserModel {
     void loadUserInfo(Context context,String userName,
                     OnCompleteListener<String> listener);
 
-    void updateNick(Context context,String userName,
-                    String newNickName,OnCompleteListener<String> listener);
+    void updateNick(Context context, String userName,
+                    String newNickName, OnCompleteListener<String> listener);
 
     void updateAvatar(Context context, String username,
                       File file, OnCompleteListener<String> listener);
