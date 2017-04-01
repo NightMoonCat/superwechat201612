@@ -2,6 +2,8 @@ package cn.moon.superwechat.db;
 
 import android.content.Context;
 
+import java.io.File;
+
 /**
  * Created by Moon on 2017/3/29.
  */
@@ -19,4 +21,6 @@ public interface IUserModel {
     void updateNick(Context context,String userName,
                     String newNickName,OnCompleteListener<String> listener);
 
+    void updateAvatar(Context context, String username,
+                      File file, OnCompleteListener<String> listener);
 }

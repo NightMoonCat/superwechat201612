@@ -2,6 +2,8 @@ package cn.moon.superwechat.db;
 
 import android.content.Context;
 
+import java.io.File;
+
 import cn.moon.I;
 import cn.moon.superwechat.utils.OkHttpUtils;
 
@@ -56,6 +58,18 @@ public class UserModel implements IUserModel {
                 .addParam(I.User.USER_NAME,userName)
                 .addParam(I.User.NICK,newNickName)
                 .targetClass(String.class)
+                .execute(listener);
+    }
+
+    @Override
+    public void updateAvatar(Context context, String userName, File file, OnCompleteListener<String> listener) {
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_AVATAR)
+                .addParam(I.NAME_OR_HXID,userName)
+                .addParam(I.AVATAR_TYPE,I.AVATAR_TYPE_USER_PATH)
+                .addFile2(file)
+                .targetClass(String.class)
+                .post()
                 .execute(listener);
     }
 }
