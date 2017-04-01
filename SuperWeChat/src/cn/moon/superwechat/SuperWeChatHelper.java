@@ -851,7 +851,6 @@ public class SuperWeChatHelper {
         }
         return user;
     }
-	
 	 /**
      * Global listener
      * If this event already handled by an activity, you don't need handle it again
@@ -871,7 +870,6 @@ public class SuperWeChatHelper {
 			        }
 			    }
 			}
-			
 			@Override
 			public void onCmdMessageReceived(List<EMMessage> messages) {
 			    for (EMMessage message : messages) {
@@ -902,18 +900,18 @@ public class SuperWeChatHelper {
 			@Override
 			public void onMessageRead(List<EMMessage> messages) {
 			}
-			
+
 			@Override
 			public void onMessageDelivered(List<EMMessage> message) {
 			}
-			
+
 			@Override
 			public void onMessageChanged(EMMessage message, Object change) {
                 EMLog.d(TAG, "change:");
 				EMLog.d(TAG, "change:" + change);
 			}
 		};
-		
+
         EMClient.getInstance().chatManager().addMessageListener(messageListener);
     }
 
