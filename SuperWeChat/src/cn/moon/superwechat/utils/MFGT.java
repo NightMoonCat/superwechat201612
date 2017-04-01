@@ -64,10 +64,9 @@ public class MFGT {
     }
 
     public static void gotoUserProfile(Activity activity) {
-        startActivity(activity,UserProfileActivity.class);
+        startActivity(activity, UserProfileActivity.class);
     }
-
-    public static void gotoChange(Activity activity) {
+    public static void gotoMoney(Activity activity) {
         RedPacketUtil.startChangeActivity(activity);
     }
 }

@@ -71,6 +71,12 @@ public class MySettingFragment extends Fragment {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
     @OnClick({R.id.layout_info_setting, R.id.layout_money, R.id.layout_setting})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -78,7 +84,7 @@ public class MySettingFragment extends Fragment {
                 MFGT.gotoUserProfile(getActivity());
                 break;
             case R.id.layout_money:
-                MFGT.gotoChange(getActivity());
+                MFGT.gotoMoney(getActivity());
                 break;
             case R.id.layout_setting:
                 MFGT.gotoSetting(getActivity());
