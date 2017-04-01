@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.easemob.redpacketui.utils.RedPacketUtil;
-import com.hyphenate.chat.EMClient;
 
 import cn.moon.superwechat.R;
 import cn.moon.superwechat.ui.GuideActivity;
@@ -65,8 +64,7 @@ public class MFGT {
     }
 
     public static void gotoUserProfile(Activity activity) {
-        startActivity(activity,new Intent(activity, UserProfileActivity.class).putExtra("setting", true)
-                .putExtra("username", EMClient.getInstance().getCurrentUser()));
+        startActivity(activity,UserProfileActivity.class);
     }
 
     public static void gotoChange(Activity activity) {
