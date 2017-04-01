@@ -15,7 +15,6 @@ package cn.moon.superwechat.ui;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -69,7 +68,6 @@ import cn.moon.superwechat.widget.MFViewPager;
 
 @SuppressLint("NewApi")
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener,DMTabHost.OnCheckedChangeListener{
-    static Activity mainActivity;
 
     protected static final String TAG = "MainActivity";
     @BindView(R.id.txt_left)
@@ -107,7 +105,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mainActivity = this;
 
         savePower();
         checkAccount(savedInstanceState);

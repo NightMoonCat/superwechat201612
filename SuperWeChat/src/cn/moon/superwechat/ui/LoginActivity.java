@@ -37,7 +37,6 @@ import cn.moon.superwechat.R;
 import cn.moon.superwechat.SuperWeChatApplication;
 import cn.moon.superwechat.SuperWeChatHelper;
 import cn.moon.superwechat.db.SuperWeChatDBManager;
-import cn.moon.superwechat.utils.MFGT;
 
 /**
  * Login screen
@@ -181,8 +180,6 @@ public class LoginActivity extends BaseActivity {
 				startActivity(intent);
 
 				finish();
-
-				MFGT.finish(GuideActivity.guideActivity);
 			}
 
 			@Override

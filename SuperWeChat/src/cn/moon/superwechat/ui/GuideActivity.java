@@ -1,6 +1,5 @@
 package cn.moon.superwechat.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -10,11 +9,9 @@ import cn.moon.superwechat.R;
 import cn.moon.superwechat.utils.MFGT;
 
 public class GuideActivity extends BaseActivity {
-    static Activity guideActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        guideActivity = this;
         setContentView(R.layout.activity_guide);
         ButterKnife.bind(this);
     }
