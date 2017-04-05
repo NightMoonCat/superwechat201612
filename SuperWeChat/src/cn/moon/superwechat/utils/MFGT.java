@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.easemob.redpacketui.utils.RedPacketUtil;
+import com.hyphenate.easeui.domain.User;
 
+import cn.moon.I;
 import cn.moon.superwechat.R;
 import cn.moon.superwechat.ui.AddContactActivity;
+import cn.moon.superwechat.ui.FriendDetailsActivity;
 import cn.moon.superwechat.ui.GuideActivity;
 import cn.moon.superwechat.ui.LoginActivity;
 import cn.moon.superwechat.ui.MainActivity;
@@ -72,5 +75,10 @@ public class MFGT {
 
     public static void gotoAddContact(Activity activity) {
         startActivity(activity, AddContactActivity.class);
+    }
+
+    public static void gotoFriendDetails(Activity activity, User user) {
+        startActivity(activity,new Intent(activity, FriendDetailsActivity.class)
+        .putExtra(I.User.TABLE_NAME,user));
     }
 }

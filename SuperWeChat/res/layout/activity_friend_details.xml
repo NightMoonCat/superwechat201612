@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ccc"
+    android:orientation="vertical">
+
+    <com.hyphenate.easeui.widget.EaseTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleBarLeftImage="@drawable/em_mm_title_back"
+        app:titleBarTitle="@string/title_user_profile"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff">
+
+        <ImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/default_avatar"/>
+
+        <TextView
+            android:id="@+id/tvNick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@+id/ivAvatar"
+            android:text="昵称"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNick"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@+id/ivAvatar"
+            android:text="帐号名:"
+            android:textSize="15dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"/>
+
+    <TextView
+        android:id="@+id/tvSetMark"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#fff"
+        android:gravity="center_vertical"
+        android:text="设置备注和标签"/>
+
+    <Button
+        android:id="@+id/btn_send_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#5f0"
+        android:text="@string/userinfo_btn_send_msg"
+        android:textSize="20dp"
+        android:visibility="gone"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+
+    <Button
+        android:id="@+id/btn_send_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:text="@string/userinfo_btn_send_video"
+        android:textSize="20dp"
+        android:visibility="gone"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+
+    <Button
+        android:id="@+id/btn_add_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:text="@string/userinfo_btn_add_contact"
+        android:textSize="20dp"
+        android:visibility="gone"/>
+
+</LinearLayout>

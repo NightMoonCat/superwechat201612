@@ -509,6 +509,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide">
         </activity>
+        <!-- 个人资料界面 -->
+        <activity
+            android:name=".ui.FriendDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide">
+        </activity>
+
     </application>
 
 </manifest>
