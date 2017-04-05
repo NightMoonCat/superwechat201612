@@ -22,6 +22,8 @@ import cn.moon.superwechat.SuperWeChatHelper.DataSyncListener;
 import cn.moon.superwechat.R;
 import cn.moon.superwechat.db.InviteMessgeDao;
 import cn.moon.superwechat.db.UserDao;
+import cn.moon.superwechat.widget.titlemenu.ActionItem;
+import cn.moon.superwechat.widget.titlemenu.TitlePopup;
 import cn.moon.superwechat.widget.ContactItemView;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
@@ -98,6 +100,13 @@ public class ContactListFragment extends EaseContactListFragment {
     @SuppressWarnings("unchecked")
     @Override
     protected void setUpView() {
+        final TitlePopup titlePopup = new TitlePopup(getContext());
+        titlePopup.addAction(new ActionItem(getContext(),R.string.menu_groupchat,R.drawable.icon_menu_group));
+        titlePopup.addAction(new ActionItem(getContext(),R.string.menu_addfriend,R.drawable.icon_menu_addfriend));
+        titlePopup.addAction(new ActionItem(getContext(),R.string.menu_qrcode,R.drawable.icon_menu_sao));
+        titlePopup.addAction(new ActionItem(getContext(),R.string.menu_money,R.drawable.icon_menu_money));
+
+
         titleBar.setRightImageResource(R.drawable.em_add);
         titleBar.setRightLayoutClickListener(new OnClickListener() {
             
@@ -133,7 +142,8 @@ public class ContactListFragment extends EaseContactListFragment {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddContactActivity.class));
+                titlePopup.show(titleBar);
+//                startActivity(new Intent(getActivity(), AddContactActivity.class));
             }
         });
         
