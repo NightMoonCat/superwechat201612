@@ -5,9 +5,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <include
+    <com.hyphenate.easeui.widget.EaseTitleBar
         android:id="@+id/layout_title"
-        layout="@layout/title_menu_all"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleBarRightImage="@drawable/em_add"
+        >
+
+        <Button
+            android:enabled="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/ease_common_tab_bg"
+            android:text="@string/app_name"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            />
+    </com.hyphenate.easeui.widget.EaseTitleBar>
 
     <cn.moon.superwechat.widget.MFViewPager
         android:id="@+id/layout_viewpage"

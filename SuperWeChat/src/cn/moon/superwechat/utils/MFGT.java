@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.easemob.redpacketui.utils.RedPacketUtil;
 
 import cn.moon.superwechat.R;
+import cn.moon.superwechat.ui.AddContactActivity;
 import cn.moon.superwechat.ui.GuideActivity;
 import cn.moon.superwechat.ui.LoginActivity;
 import cn.moon.superwechat.ui.MainActivity;
@@ -67,5 +68,9 @@ public class MFGT {
     }
     public static void gotoMoney(Activity activity) {
         RedPacketUtil.startChangeActivity(activity);
+    }
+
+    public static void gotoAddContact(Activity activity) {
+        startActivity(activity, AddContactActivity.class);
     }
 }

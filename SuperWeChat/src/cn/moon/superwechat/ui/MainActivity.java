@@ -33,7 +33,6 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easemob.redpacketsdk.constant.RPConstant;
@@ -47,7 +46,9 @@ import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.easeui.widget.EaseTitleBar;
 import com.hyphenate.util.EMLog;
+import com.hyphenate.util.NetUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
@@ -63,19 +64,22 @@ import cn.moon.superwechat.db.InviteMessgeDao;
 import cn.moon.superwechat.db.UserDao;
 import cn.moon.superwechat.runtimepermissions.PermissionsManager;
 import cn.moon.superwechat.runtimepermissions.PermissionsResultAction;
+import cn.moon.superwechat.utils.MFGT;
 import cn.moon.superwechat.widget.DMTabHost;
 import cn.moon.superwechat.widget.MFViewPager;
+import cn.moon.superwechat.widget.titlemenu.ActionItem;
+import cn.moon.superwechat.widget.titlemenu.TitlePopup;
 
 @SuppressLint("NewApi")
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, DMTabHost.OnCheckedChangeListener {
 
     protected static final String TAG = "MainActivity";
-    @BindView(R.id.txt_left)
-    TextView mTxtLeft;
     @BindView(R.id.layout_viewpage)
     MFViewPager mLayoutViewpage;
     @BindView(R.id.layout_tabhost)
     DMTabHost mLayoutTabhost;
+    @BindView(R.id.layout_title)
+    EaseTitleBar mTitleBar;
 
 //    // textview for unread message count
 //    private TextView unreadLabel;
@@ -93,6 +97,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private boolean isCurrentAccountRemoved = false;
 
     MainTabAdapter mAdapter;
+    TitlePopup mTitlePopup;
 
 
     /**
@@ -213,15 +218,39 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //		mTabs[2] = (Button) findViewById(R.id.btn_setting);
 //		// select first tab
 //		mTabs[0].setSelected(true);
-        mTxtLeft.setVisibility(View.VISIBLE);
+
+        mTitleBar.setRightLayoutClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (NetUtils.hasDataConnection(MainActivity.this)) {
+                    mTitlePopup.show(mTitleBar);
+                }
+            }
+        });
+
+        mTitlePopup = new TitlePopup(MainActivity.this);
+        mTitlePopup.addAction(new ActionItem(MainActivity.this, R.string.menu_groupchat, R.drawable.icon_menu_group));
+        mTitlePopup.addAction(new ActionItem(MainActivity.this, R.string.menu_addfriend, R.drawable.icon_menu_addfriend));
+        mTitlePopup.addAction(new ActionItem(MainActivity.this, R.string.menu_qrcode, R.drawable.icon_menu_sao));
+        mTitlePopup.addAction(new ActionItem(MainActivity.this, R.string.menu_money, R.drawable.icon_menu_money));
+        mTitlePopup.setItemOnClickListener(mOnItemOnClickListener);
     }
+    TitlePopup.OnItemOnClickListener mOnItemOnClickListener = new TitlePopup.OnItemOnClickListener() {
+        @Override
+        public void onItemClick(ActionItem item, int position) {
+            if (position == 1) {
+                // 进入添加好友页
+                MFGT.gotoAddContact(MainActivity.this);
+            }
+        }
+    };
 
     /**
      * on tab clicked
      *
      * @param view
      */
-    public void onTabClicked(View view) {
+//    public void onTabClicked(View view) {
 //		switch (view.getId()) {
 //		case R.id.btn_conversation:
 //			index = 0;
@@ -245,7 +274,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //		// set current tab selected
 //		mTabs[index].setSelected(true);
 //		currentTabIndex = index;
-    }
+//    }
 
     EMMessageListener messageListener = new EMMessageListener() {
 
