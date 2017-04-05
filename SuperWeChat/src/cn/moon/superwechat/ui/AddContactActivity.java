@@ -49,6 +49,8 @@ public class AddContactActivity extends BaseActivity {
 
     private String toAddUsername;
 
+    User mUser  = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +66,7 @@ public class AddContactActivity extends BaseActivity {
         String strUserName = getResources().getString(R.string.user_name);
         mEditNote.setHint(strUserName);
 
-        mTitleBar.setLeftLayoutClickListener(new View.OnClickListener() {
+        mTitleBar.setLeftLayoutClickListener(new  View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MFGT.finish(AddContactActivity.this);
@@ -79,15 +81,21 @@ public class AddContactActivity extends BaseActivity {
      * @param v
      */
     public void searchContact(View v) {
-        String name = mEditNote.getText().toString();
+        progressDialog = new ProgressDialog(AddContactActivity.this);
 
+        String name = mEditNote.getText().toString();
         toAddUsername = name;
         if (TextUtils.isEmpty(name)) {
             new EaseAlertDialog(this, R.string.Please_enter_a_username).show();
             return;
         }
         searchUser();
+        showDialog();
+    }
 
+    private void showDialog() {
+        progressDialog.setMessage(getString(R.string.search));
+        progressDialog.show();
     }
 
     private void searchUser() {
@@ -100,6 +108,7 @@ public class AddContactActivity extends BaseActivity {
                     Result result = ResultUtils.getResultFromJson(s, User.class);
                     if (result != null && result.isRetMsg()) {
                         success = true;
+                        mUser = (User) result.getRetData();
                     }
                 }
                 showResult(success);
@@ -114,9 +123,11 @@ public class AddContactActivity extends BaseActivity {
     }
 
     private void showResult(boolean success) {
+        progressDialog.dismiss();
         mLlUser.setVisibility(success ? View.GONE : View.VISIBLE);
         if (success) {
             //跳转到用户详情界面
+            MFGT.gotoFriendDetails(AddContactActivity.this,mUser);
         }
     }
 
