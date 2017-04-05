@@ -238,7 +238,7 @@ public class UserProfileActivity extends BaseActivity {
     public File saveBitmapFile(Bitmap bitmap) {
         if (bitmap != null) {
             String imagePath = getAvatarPath(UserProfileActivity.this, I.AVATAR_TYPE) + "/" +
-                    getAvatarTime() + ".jpg";
+                    getAvatarName() + ".jpg";
             File file = new File(imagePath);
 
             try {
@@ -256,7 +256,7 @@ public class UserProfileActivity extends BaseActivity {
 
     }
 
-    private String getAvatarTime() {
+    private String getAvatarName() {
         avatarName = user.getMUserName() + System.currentTimeMillis();
         return avatarName;
     }
