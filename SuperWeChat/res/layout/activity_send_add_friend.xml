@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.hyphenate.easeui.widget.EaseTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleBarLeftImage="@drawable/em_mm_title_back"
+        app:titleBarTitle="@string/addcontact_send_title">
+
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/colorAccent"
+            android:text="@string/button_send"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            />
+    </com.hyphenate.easeui.widget.EaseTitleBar>
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:text="您需要发送验证申请，等待对方通过"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="30dp"/>
+    <EditText
+        android:id="@+id/etConfirmMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+    <TextView
+        android:text="为朋友设置备注"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="30dp"/>
+
+    <!--android:id="@+id/etMark"-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:text="设置朋友权限"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="30dp"/>
+    <!--android:id="@+id/et权限"-->
+
+</LinearLayout>

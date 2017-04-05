@@ -12,6 +12,7 @@ import com.hyphenate.easeui.widget.EaseTitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.moon.I;
 import cn.moon.superwechat.R;
 import cn.moon.superwechat.SuperWeChatHelper;
@@ -82,6 +83,17 @@ public class FriendDetailsActivity extends BaseActivity {
         mBtnSendMsg.setVisibility(isFriend?View.VISIBLE:View.GONE);
         mBtnSendVideo.setVisibility(isFriend?View.VISIBLE:View.GONE);
         mBtnAddContact.setVisibility(isFriend?View.GONE:View.VISIBLE);
+    }
+    @OnClick(R.id.btn_add_contact)
+    public void addContact() {
+        boolean isConfirm = true;
+        if (isConfirm) {
+            //发送验证消息
+            MFGT.gotoSendAddFriend(FriendDetailsActivity.this,mUser.getMUserName());
+        } else {
+            //直接添加为好友
+        }
+
     }
 
 }
