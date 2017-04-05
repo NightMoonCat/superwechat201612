@@ -67,7 +67,7 @@ import cn.moon.superwechat.widget.DMTabHost;
 import cn.moon.superwechat.widget.MFViewPager;
 
 @SuppressLint("NewApi")
-public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener,DMTabHost.OnCheckedChangeListener{
+public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, DMTabHost.OnCheckedChangeListener {
 
     protected static final String TAG = "MainActivity";
     @BindView(R.id.txt_left)
@@ -142,10 +142,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
 
         mAdapter = new MainTabAdapter(getSupportFragmentManager());
-        mAdapter.addFragment(conversationListFragment,getString(R.string.app_name));
-        mAdapter.addFragment(contactListFragment,getString(R.string.contacts));
-        mAdapter.addFragment(new DicoverFragment(),getString(R.string.discover));
-        mAdapter.addFragment(settingFragment,getString(R.string.setting));
+        mAdapter.addFragment(conversationListFragment, getString(R.string.app_name));
+        mAdapter.addFragment(contactListFragment, getString(R.string.contacts));
+        mAdapter.addFragment(new DicoverFragment(), getString(R.string.discover));
+        mAdapter.addFragment(settingFragment, getString(R.string.setting));
         mLayoutViewpage.setAdapter(mAdapter);
         mLayoutTabhost.setChecked(0);
         mLayoutTabhost.setOnCheckedChangeListener(this);
