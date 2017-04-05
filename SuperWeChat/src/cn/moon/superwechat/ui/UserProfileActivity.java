@@ -91,6 +91,7 @@ public class UserProfileActivity extends BaseActivity {
     }
 
     private void initView() {
+        dialog = new ProgressDialog(UserProfileActivity.this);
         mTitleBar.setLeftImageResource(R.drawable.em_mm_title_back);
         mTitleBar.setLeftLayoutClickListener(new View.OnClickListener() {
             @Override
