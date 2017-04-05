@@ -76,7 +76,7 @@
         android:id="@+id/btn_send_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
+        android:background="#5f0"
         android:text="@string/userinfo_btn_send_video"
         android:textSize="20dp"
         android:visibility="gone"/>

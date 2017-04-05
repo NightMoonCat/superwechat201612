@@ -14,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.moon.I;
 import cn.moon.superwechat.R;
+import cn.moon.superwechat.SuperWeChatHelper;
 import cn.moon.superwechat.utils.MFGT;
 
 /**
@@ -66,9 +67,21 @@ public class FriendDetailsActivity extends BaseActivity {
     }
 
     private void showUserInfo() {
+        boolean isFriend = SuperWeChatHelper.getInstance().getAppContactList().containsKey(mUser.getMUserName());
+        if (isFriend) {
+            SuperWeChatHelper.getInstance().saveAppContact(mUser);
+        }
         mTvUserName.setText(mUser.getMUserName());
-        EaseUserUtils.setAppUserNick(mUser.getMUserName(), mTvNick);
-        EaseUserUtils.setAppUserAvatar(FriendDetailsActivity.this, mUser.getMUserName(), mIvAvatar);
+        EaseUserUtils.setAppUserNick(mUser, mTvNick);
+        EaseUserUtils.setAppUserAvatar(FriendDetailsActivity.this,mUser,mIvAvatar);
+        showFriend(isFriend);
+
+    }
+
+    private void showFriend(boolean isFriend) {
+        mBtnSendMsg.setVisibility(isFriend?View.VISIBLE:View.GONE);
+        mBtnSendVideo.setVisibility(isFriend?View.VISIBLE:View.GONE);
+        mBtnAddContact.setVisibility(isFriend?View.GONE:View.VISIBLE);
     }
 
 }
