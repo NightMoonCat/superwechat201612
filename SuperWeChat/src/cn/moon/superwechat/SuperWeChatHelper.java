@@ -738,9 +738,39 @@ public class SuperWeChatHelper {
             localUsers.putAll(toAddUsers);
             onAppContactAdded(username);
 
-            broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
-        }
 
+        }
+        private void onAppContactAdded(final String username) {
+
+            mUserModel.addContact(appContext, EMClient.getInstance().getCurrentUser(), username,
+                    new OnCompleteListener<String>() {
+                        @Override
+                        public void onSuccess(String s) {
+                            if (s != null) {
+                                Result result = ResultUtils.getResultFromJson(s, User.class);
+                                if (result != null && result.isRetMsg()) {
+                                    User u = (User) result.getRetData();
+                                    if (u != null) {
+                                        //保存到数据库
+                                        Map<String, User> appContactList = getAppContactList();
+                                        if (appContactList.containsKey(username)) {
+                                            userDao.saveAppContact(u);
+                                        }
+                                        //保存到内存
+                                        appContactList.put(username,u);
+                                        //通知联系人更新列表
+                                        broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+
+                        }
+                    });
+        }
         @Override
         public void onContactDeleted(String username) {
             Map<String, EaseUser> localUsers = SuperWeChatHelper.getInstance().getContactList();
@@ -799,30 +829,7 @@ public class SuperWeChatHelper {
         }
     }
 
-    private void onAppContactAdded(String username) {
-        mUserModel.addContact(appContext, EMClient.getInstance().getCurrentUser(), username,
-                new OnCompleteListener<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        if (s != null) {
-                            Result result = ResultUtils.getResultFromJson(s, User.class);
-                            if (result != null && result.isRetMsg()) {
-                                User u = (User) result.getRetData();
-                                if (u != null) {
-                                    //保存到数据库
-                                    //保存到内存
-                                    //通知联系人更新列表
-                                }
-                            }
-                        }
-                    }
 
-                    @Override
-                    public void onError(String error) {
-
-                    }
-                });
-    }
 
     /**
      * save and notify invitation message
