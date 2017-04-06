@@ -58,7 +58,7 @@ public class SendAddFriendActivity extends BaseActivity {
         });
 
         mEtConfirmMsg.setText(getString(R.string.addcontact_send_msg_prefix) +
-                SuperWeChatHelper.getInstance().getUserProfileManager().getCurrentAppUserInfo().getMUserName());
+                SuperWeChatHelper.getInstance().getUserProfileManager().getCurrentAppUserInfo().getMUserNick());
     }
 
     @OnClick(R.id.btnSend)

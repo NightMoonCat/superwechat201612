@@ -13,10 +13,10 @@
  */
 package cn.moon.superwechat.db;
 
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
+
+import java.util.List;
 
 import cn.moon.superwechat.domain.InviteMessage;
 
@@ -24,9 +24,11 @@ public class InviteMessgeDao {
 	static final String TABLE_NAME = "new_friends_msgs";
 	static final String COLUMN_NAME_ID = "id";
 	static final String COLUMN_NAME_FROM = "username";
+	static final String COLUMN_NAME_NICK = "nick";
+	static final String COLUMN_NAME_AVATAR = "avatar";
 	static final String COLUMN_NAME_GROUP_ID = "groupid";
 	static final String COLUMN_NAME_GROUP_Name = "groupname";
-	
+
 	static final String COLUMN_NAME_TIME = "time";
 	static final String COLUMN_NAME_REASON = "reason";
 	public static final String COLUMN_NAME_STATUS = "status";
