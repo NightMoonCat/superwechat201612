@@ -10,9 +10,11 @@ import cn.moon.I;
 import cn.moon.superwechat.R;
 import cn.moon.superwechat.ui.AddContactActivity;
 import cn.moon.superwechat.ui.FriendDetailsActivity;
+import cn.moon.superwechat.ui.GroupsActivity;
 import cn.moon.superwechat.ui.GuideActivity;
 import cn.moon.superwechat.ui.LoginActivity;
 import cn.moon.superwechat.ui.MainActivity;
+import cn.moon.superwechat.ui.NewFriendsMsgActivity;
 import cn.moon.superwechat.ui.RegisterActivity;
 import cn.moon.superwechat.ui.SendAddFriendActivity;
 import cn.moon.superwechat.ui.SettingsActivity;
@@ -86,5 +88,14 @@ public class MFGT {
     public static void gotoSendAddFriend(Activity activity, String userName) {
         startActivity(activity, new Intent(activity, SendAddFriendActivity.class)
                 .putExtra(I.User.USER_NAME, userName));
+    }
+
+    public static void gotoNewFriendMsg(Activity activity) {
+        startActivity(activity, NewFriendsMsgActivity.class);
+
+    }
+
+    public static void gotoGroups(Activity activity) {
+        startActivity(activity, GroupsActivity.class);
     }
 }
