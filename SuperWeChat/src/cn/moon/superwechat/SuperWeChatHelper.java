@@ -50,9 +50,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import cn.moon.superwechat.db.SuperWeChatDBManager;
+import cn.moon.superwechat.db.IUserModel;
 import cn.moon.superwechat.db.InviteMessgeDao;
+import cn.moon.superwechat.db.OnCompleteListener;
+import cn.moon.superwechat.db.SuperWeChatDBManager;
 import cn.moon.superwechat.db.UserDao;
+import cn.moon.superwechat.db.UserModel;
 import cn.moon.superwechat.domain.EmojiconExampleGroupData;
 import cn.moon.superwechat.domain.InviteMessage;
 import cn.moon.superwechat.domain.RobotUser;
@@ -64,6 +67,8 @@ import cn.moon.superwechat.ui.VideoCallActivity;
 import cn.moon.superwechat.ui.VoiceCallActivity;
 import cn.moon.superwechat.utils.L;
 import cn.moon.superwechat.utils.PreferenceManager;
+import cn.moon.superwechat.utils.Result;
+import cn.moon.superwechat.utils.ResultUtils;
 
 public class SuperWeChatHelper {
     /**
@@ -132,6 +137,7 @@ public class SuperWeChatHelper {
     private LocalBroadcastManager broadcastManager;
 
     private boolean isGroupAndContactListenerRegisted;
+    private IUserModel mUserModel;
 
 	private SuperWeChatHelper() {
 	}
@@ -151,6 +157,7 @@ public class SuperWeChatHelper {
 	 */
 	public void init(Context context) {
 	    mSuperWeChatModel = new SuperWeChatModel(context);
+        mUserModel = new UserModel();
 	    EMOptions options = initChatOptions();
 	    //use default options if options is null
 		if (EaseUI.getInstance().init(context, options)) {
@@ -799,11 +806,36 @@ public class SuperWeChatHelper {
         if(inviteMessgeDao == null){
             inviteMessgeDao = new InviteMessgeDao(appContext);
         }
-        inviteMessgeDao.saveMessage(msg);
+        syncUserInfoAddToMsg(msg);
         //increase the unread message count
         inviteMessgeDao.saveUnreadMessageCount(1);
         // notify there is new message
         getNotifier().vibrateAndPlayTone(null);
+    }
+
+    private void syncUserInfoAddToMsg(final InviteMessage msg) {
+        mUserModel.loadUserInfo(appContext, msg.getFrom(), new OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (s != null) {
+                    Result result = ResultUtils.getResultFromJson(s, User.class);
+                    if (result != null && result.isRetMsg()) {
+                        User user = (User) result.getRetData();
+                        if (user != null) {
+                            L.e(TAG,"syncUserInfoAddToMsg,user"+user.toString());
+                            msg.setNickName(user.getMUserNick());
+                            msg.setAvatar(user.getAvatar());
+                        }
+                    }
+                }
+                inviteMessgeDao.saveMessage(msg);
+            }
+
+            @Override
+            public void onError(String error) {
+                inviteMessgeDao.saveMessage(msg);
+            }
+        });
     }
 
     /**
