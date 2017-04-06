@@ -73,14 +73,15 @@ public class FriendDetailsActivity extends BaseActivity {
         if (mUser != null) {
             showUserInfo();
         } else {
-            msg = (InviteMessage) getIntent().getSerializableExtra(I.User.NICK);
+            InviteMessage msg = (InviteMessage) getIntent().getSerializableExtra(I.User.NICK);
             if (msg != null) {
                 mUser = new User(msg.getFrom());
                 mUser.setMUserNick(msg.getNickName());
                 mUser.setAvatar(msg.getAvatar());
                 showUserInfo();
+            } else {
+                MFGT.finish(FriendDetailsActivity.this);
             }
-            MFGT.finish(FriendDetailsActivity.this);
         }
 
     }

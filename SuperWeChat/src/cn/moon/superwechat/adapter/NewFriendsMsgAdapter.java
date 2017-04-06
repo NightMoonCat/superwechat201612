@@ -13,16 +13,6 @@
  */
 package cn.moon.superwechat.adapter;
 
-import java.util.List;
-
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.easeui.utils.EaseUserUtils;
-
-import cn.moon.superwechat.R;
-import cn.moon.superwechat.db.InviteMessgeDao;
-import cn.moon.superwechat.domain.InviteMessage;
-import cn.moon.superwechat.utils.MFGT;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -37,6 +27,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.utils.EaseUserUtils;
+
+import java.util.List;
+
+import cn.moon.superwechat.R;
+import cn.moon.superwechat.db.InviteMessgeDao;
+import cn.moon.superwechat.domain.InviteMessage;
+import cn.moon.superwechat.utils.L;
+import cn.moon.superwechat.utils.MFGT;
 
 public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 
@@ -61,7 +62,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
             holder.agree = (Button) convertView.findViewById(R.id.agree);
 			holder.status = (Button) convertView.findViewById(R.id.user_state);
 			holder.groupContainer = (LinearLayout) convertView.findViewById(R.id.ll_group);
-			holder.mLayout = (LinearLayout) convertView.findViewById(R.id.layoutContent);
+			holder.layoutInvite = (LinearLayout) convertView.findViewById(R.id.layout_invite);
 			holder.groupname = (TextView) convertView.findViewById(R.id.tv_groupName);
 			// holder.time = (TextView) convertView.findViewById(R.id.time);
 			convertView.setTag(holder);
@@ -110,7 +111,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                 holder.agree.setBackgroundResource(android.R.drawable.btn_default);
                 holder.agree.setText(str2);
 
-				holder.status.setVisibility(View.VISIBLE);
+				holder.status.setVisibility(View.GONE);
 				holder.status.setEnabled(true);
 				holder.status.setBackgroundResource(android.R.drawable.btn_default);
 				holder.status.setText(str7);
@@ -163,8 +164,9 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                 holder.status.setBackgroundDrawable(null);
                 holder.status.setEnabled(false);
             }
+			L.e("main","syaghsgggsagduagdhhdaskdjaskljd");
 
-            holder.mLayout.setOnClickListener(new OnClickListener() {
+			holder.layoutInvite.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					MFGT.gotoFriendDetails(context,msg);
@@ -178,8 +180,6 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 	/**
 	 * accept invitation
 	 *
-	 * @param button
-	 * @param username
 	 */
 	private void acceptInvitation(final Button buttonAgree, final Button buttonRefuse, final InviteMessage msg) {
 		final ProgressDialog pd = new ProgressDialog(context);
@@ -236,8 +236,6 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 	/**
      * decline invitation
      *
-     * @param button
-     * @param username
      */
     private void refuseInvitation(final Button buttonAgree, final Button buttonRefuse, final InviteMessage msg) {
         final ProgressDialog pd = new ProgressDialog(context);
@@ -292,7 +290,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
     }
 
 	private static class ViewHolder {
-		LinearLayout mLayout;
+		LinearLayout layoutInvite;
 		ImageView avator;
 		TextView name;
 		TextView reason;
