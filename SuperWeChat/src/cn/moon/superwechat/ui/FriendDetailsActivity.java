@@ -1,5 +1,6 @@
 package cn.moon.superwechat.ui;
 
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,8 +17,14 @@ import butterknife.OnClick;
 import cn.moon.I;
 import cn.moon.superwechat.R;
 import cn.moon.superwechat.SuperWeChatHelper;
+import cn.moon.superwechat.db.IUserModel;
+import cn.moon.superwechat.db.InviteMessgeDao;
+import cn.moon.superwechat.db.OnCompleteListener;
+import cn.moon.superwechat.db.UserModel;
 import cn.moon.superwechat.domain.InviteMessage;
 import cn.moon.superwechat.utils.MFGT;
+import cn.moon.superwechat.utils.Result;
+import cn.moon.superwechat.utils.ResultUtils;
 
 /**
  * Created by Moon on 2017/4/5.
@@ -25,6 +32,7 @@ import cn.moon.superwechat.utils.MFGT;
 
 public class FriendDetailsActivity extends BaseActivity {
     User mUser = null;
+    IUserModel mModel;
     @BindView(R.id.title_bar)
     EaseTitleBar mTitleBar;
     @BindView(R.id.ivAvatar)
@@ -39,12 +47,14 @@ public class FriendDetailsActivity extends BaseActivity {
     Button mBtnSendVideo;
     @BindView(R.id.btn_add_contact)
     Button mBtnAddContact;
+    InviteMessage msg;
 
     @Override
     protected void onCreate(Bundle saveInstance) {
         super.onCreate(saveInstance);
         setContentView(R.layout.activity_friend_details);
         ButterKnife.bind(this);
+        mModel = new UserModel();
         initView();
         initData();
     }
@@ -63,7 +73,7 @@ public class FriendDetailsActivity extends BaseActivity {
         if (mUser != null) {
             showUserInfo();
         } else {
-            InviteMessage msg = (InviteMessage) getIntent().getSerializableExtra(I.User.NICK);
+            msg = (InviteMessage) getIntent().getSerializableExtra(I.User.NICK);
             if (msg != null) {
                 mUser = new User(msg.getFrom());
                 mUser.setMUserNick(msg.getNickName());
@@ -105,7 +115,32 @@ public class FriendDetailsActivity extends BaseActivity {
 
     }
     private void syncUserInfo() {
+        mModel.loadUserInfo(FriendDetailsActivity.this, mUser.getMUserName(),
+                new OnCompleteListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        if (s != null) {
+                            Result result = ResultUtils.getResultFromJson(s, User.class);
+                            if (result != null && result.isRetMsg()) {
+                                User u = (User) result.getRetData();
+                                if (u != null) {
+                                    if (msg != null) {
+                                        ContentValues values = new ContentValues();
+                                        values.put(InviteMessgeDao.COLUMN_NAME_NICK,u.getMUserNick());
+                                        values.put(InviteMessgeDao.COLUMN_NAME_AVATAR,u.getAvatar());
+                                        InviteMessgeDao dao = new InviteMessgeDao(FriendDetailsActivity.this);
+                                        dao.updateMessage(msg.getId(),values);
+                                    }
+                                }
+                            }
+                        }
+                    }
 
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
     }
 
 }

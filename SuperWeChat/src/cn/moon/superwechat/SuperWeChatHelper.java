@@ -736,6 +736,7 @@ public class SuperWeChatHelper {
             }
             toAddUsers.put(username, user);
             localUsers.putAll(toAddUsers);
+            onAppContactAdded(username);
 
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
         }
@@ -797,7 +798,32 @@ public class SuperWeChatHelper {
             Log.d(username, username + " refused to your request");
         }
     }
-    
+
+    private void onAppContactAdded(String username) {
+        mUserModel.addContact(appContext, EMClient.getInstance().getCurrentUser(), username,
+                new OnCompleteListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        if (s != null) {
+                            Result result = ResultUtils.getResultFromJson(s, User.class);
+                            if (result != null && result.isRetMsg()) {
+                                User u = (User) result.getRetData();
+                                if (u != null) {
+                                    //保存到数据库
+                                    //保存到内存
+                                    //通知联系人更新列表
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+    }
+
     /**
      * save and notify invitation message
      * @param msg

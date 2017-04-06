@@ -24,8 +24,8 @@ public class InviteMessgeDao {
 	static final String TABLE_NAME = "new_friends_msgs";
 	static final String COLUMN_NAME_ID = "id";
 	static final String COLUMN_NAME_FROM = "username";
-	static final String COLUMN_NAME_NICK = "nick";
-	static final String COLUMN_NAME_AVATAR = "avatar";
+	public static final String COLUMN_NAME_NICK = "nick";
+	public static final String COLUMN_NAME_AVATAR = "avatar";
 	static final String COLUMN_NAME_GROUP_ID = "groupid";
 	static final String COLUMN_NAME_GROUP_Name = "groupname";
 
