@@ -1,6 +1,7 @@
 package cn.moon.superwechat.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 import com.easemob.redpacketui.utils.RedPacketUtil;
@@ -8,6 +9,7 @@ import com.hyphenate.easeui.domain.User;
 
 import cn.moon.I;
 import cn.moon.superwechat.R;
+import cn.moon.superwechat.domain.InviteMessage;
 import cn.moon.superwechat.ui.AddContactActivity;
 import cn.moon.superwechat.ui.FriendDetailsActivity;
 import cn.moon.superwechat.ui.GroupsActivity;
@@ -97,5 +99,10 @@ public class MFGT {
 
     public static void gotoGroups(Activity activity) {
         startActivity(activity, GroupsActivity.class);
+    }
+
+    public static void gotoFriendDetails(Context activity, InviteMessage msg) {
+        startActivity((Activity) activity,new Intent(activity,FriendDetailsActivity.class)
+        .putExtra(I.User.NICK,msg));
     }
 }

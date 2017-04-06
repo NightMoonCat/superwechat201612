@@ -21,6 +21,7 @@ import com.hyphenate.easeui.utils.EaseUserUtils;
 import cn.moon.superwechat.R;
 import cn.moon.superwechat.db.InviteMessgeDao;
 import cn.moon.superwechat.domain.InviteMessage;
+import cn.moon.superwechat.utils.MFGT;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -60,6 +61,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
             holder.agree = (Button) convertView.findViewById(R.id.agree);
 			holder.status = (Button) convertView.findViewById(R.id.user_state);
 			holder.groupContainer = (LinearLayout) convertView.findViewById(R.id.ll_group);
+			holder.mLayout = (LinearLayout) convertView.findViewById(R.id.layoutContent);
 			holder.groupname = (TextView) convertView.findViewById(R.id.tv_groupName);
 			// holder.time = (TextView) convertView.findViewById(R.id.time);
 			convertView.setTag(holder);
@@ -161,6 +163,13 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                 holder.status.setBackgroundDrawable(null);
                 holder.status.setEnabled(false);
             }
+
+            holder.mLayout.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					MFGT.gotoFriendDetails(context,msg);
+				}
+			});
 		}
 
 		return convertView;
@@ -283,6 +292,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
     }
 
 	private static class ViewHolder {
+		LinearLayout mLayout;
 		ImageView avator;
 		TextView name;
 		TextView reason;

@@ -16,6 +16,7 @@ import butterknife.OnClick;
 import cn.moon.I;
 import cn.moon.superwechat.R;
 import cn.moon.superwechat.SuperWeChatHelper;
+import cn.moon.superwechat.domain.InviteMessage;
 import cn.moon.superwechat.utils.MFGT;
 
 /**
@@ -62,6 +63,13 @@ public class FriendDetailsActivity extends BaseActivity {
         if (mUser != null) {
             showUserInfo();
         } else {
+            InviteMessage msg = (InviteMessage) getIntent().getSerializableExtra(I.User.NICK);
+            if (msg != null) {
+                mUser = new User(msg.getFrom());
+                mUser.setMUserNick(msg.getNickName());
+                mUser.setAvatar(msg.getAvatar());
+                showUserInfo();
+            }
             MFGT.finish(FriendDetailsActivity.this);
         }
 
@@ -76,6 +84,7 @@ public class FriendDetailsActivity extends BaseActivity {
         EaseUserUtils.setAppUserNick(mUser, mTvNick);
         EaseUserUtils.setAppUserAvatar(FriendDetailsActivity.this,mUser,mIvAvatar);
         showFriend(isFriend);
+        syncUserInfo();
 
     }
 
@@ -93,6 +102,9 @@ public class FriendDetailsActivity extends BaseActivity {
         } else {
             //直接添加为好友
         }
+
+    }
+    private void syncUserInfo() {
 
     }
 
