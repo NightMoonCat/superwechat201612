@@ -67,7 +67,7 @@ public class EaseUserUtils {
             Glide.with(context).load(R.drawable.ease_default_avatar).into(imageView);
         }
     }
-    private static void setAvatar(Context context, String avatarPath, ImageView imageView) {
+    public static void setAvatar(Context context, String avatarPath, ImageView imageView) {
         if(avatarPath != null){
             try {
                 int avatarResId = Integer.parseInt(avatarPath);
