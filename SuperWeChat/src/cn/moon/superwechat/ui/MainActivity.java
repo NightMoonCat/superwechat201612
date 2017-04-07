@@ -56,6 +56,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.moon.I;
 import cn.moon.superwechat.Constant;
 import cn.moon.superwechat.R;
 import cn.moon.superwechat.SuperWeChatHelper;
@@ -618,6 +619,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         showExceptionDialogFromIntent(intent);
+        boolean isChat = intent.getBooleanExtra(I.IS_FROM_CHAT, false);
+        if (isChat) {
+            mLayoutTabhost.setChecked(0);
+            mLayoutViewpage.setCurrentItem(0);
+        }
+        //这句话将Intent传递到onResume(),使它可以接收
+        //setIntent(intent);
     }
 
     /**

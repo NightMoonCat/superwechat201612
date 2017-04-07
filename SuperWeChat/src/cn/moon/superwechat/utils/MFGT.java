@@ -112,4 +112,9 @@ public class MFGT {
                 .putExtra("userId", userName));
 
     }
+
+    public static void gotoMain(Activity activity, boolean isChat) {
+        startActivity(activity,new Intent(activity,MainActivity.class)
+        .putExtra(I.IS_FROM_CHAT,isChat));
+    }
 }
