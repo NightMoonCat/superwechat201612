@@ -498,7 +498,7 @@ public class SuperWeChatHelper {
         inviteMessgeDao = new InviteMessgeDao(appContext);
         userDao = new UserDao(appContext);
     }
-    
+
     /**
      * register group and contact listener, you need register when login
      */
@@ -776,6 +776,11 @@ public class SuperWeChatHelper {
             Map<String, EaseUser> localUsers = SuperWeChatHelper.getInstance().getContactList();
             localUsers.remove(username);
             userDao.deleteContact(username);
+
+            //移除自己的内存和数据库中删除的用户数据
+            SuperWeChatHelper.getInstance().getAppContactList().remove(username);
+            userDao.deleteAppContact(username);
+
             inviteMessgeDao.deleteMessage(username);
 
             EMClient.getInstance().chatManager().deleteConversation(username, false);
@@ -1072,7 +1077,7 @@ public class SuperWeChatHelper {
      * @return
      */
     public Map<String, EaseUser> getContactList() {
-        if (isLoggedIn() && contactList == null) {
+        if ((isLoggedIn() && contactList == null)||contactList.size()==0) {
             contactList = mSuperWeChatModel.getContactList();
         }
         

@@ -25,6 +25,8 @@ public interface IUserModel {
                       File file, OnCompleteListener<String> listener);
     void addContact(Context context,String username,String cname,
                     OnCompleteListener<String> listener);
+    void deleteContact(Context context,String username,String cname,
+                    OnCompleteListener<String> listener);
     void loadContactList(Context context,String username,
                     OnCompleteListener<String> listener);
 }
