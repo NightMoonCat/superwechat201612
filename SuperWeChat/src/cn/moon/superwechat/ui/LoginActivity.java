@@ -37,6 +37,7 @@ import cn.moon.superwechat.R;
 import cn.moon.superwechat.SuperWeChatApplication;
 import cn.moon.superwechat.SuperWeChatHelper;
 import cn.moon.superwechat.db.SuperWeChatDBManager;
+import cn.moon.superwechat.utils.MD5;
 
 /**
  * Login screen
@@ -149,7 +150,7 @@ public class LoginActivity extends BaseActivity {
 		final long start = System.currentTimeMillis();
 		// call login method
 		Log.d(TAG, "EMClient.getInstance().login");
-		EMClient.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
+		EMClient.getInstance().login(currentUsername, MD5.getMessageDigest(currentPassword), new EMCallBack() {
 
 			@Override
 			public void onSuccess() {
