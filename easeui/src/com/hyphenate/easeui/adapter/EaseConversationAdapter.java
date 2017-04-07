@@ -20,7 +20,7 @@ import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.R;
-import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
@@ -227,26 +227,29 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                 results.values = copyConversationList;
                 results.count = copyConversationList.size();
             } else {
-                String prefixString = prefix.toString();
+                String prefixString = prefix.toString().toUpperCase();
                 final int count = mOriginalValues.size();
                 final ArrayList<EMConversation> newValues = new ArrayList<EMConversation>();
 
                 for (int i = 0; i < count; i++) {
                     final EMConversation value = mOriginalValues.get(i);
-                    String username = value.conversationId();
-                    
+                    String username = value.conversationId().toUpperCase();
+
                     EMGroup group = EMClient.getInstance().groupManager().getGroup(username);
+                    String nick = null;
+
                     if(group != null){
-                        username = group.getGroupName();
+                        username = group.getGroupName().toUpperCase();
                     }else{
-                        EaseUser user = EaseUserUtils.getUserInfo(username);
+                        User user = EaseUserUtils.getAppUserInfo(username);
                         // TODO: not support Nick anymore
-//                        if(user != null && user.getNick() != null)
-//                            username = user.getNick();
+//                        if(user != null && user.getMUserNick() != null)
+//                            username = user.getMUserNick().toUpperCase();
+//                        nick = user.getMUserNick().toUpperCase();
                     }
 
                     // First match against the whole ,non-splitted value
-                    if (username.startsWith(prefixString)) {
+                    if (username.contains(prefixString)/*||nick.contains(prefixString)*/) {
                         newValues.add(value);
                     } else{
                           final String[] words = username.split(" ");
