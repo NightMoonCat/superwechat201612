@@ -11,6 +11,7 @@ import cn.moon.I;
 import cn.moon.superwechat.R;
 import cn.moon.superwechat.domain.InviteMessage;
 import cn.moon.superwechat.ui.AddContactActivity;
+import cn.moon.superwechat.ui.ChatActivity;
 import cn.moon.superwechat.ui.FriendDetailsActivity;
 import cn.moon.superwechat.ui.GroupsActivity;
 import cn.moon.superwechat.ui.GuideActivity;
@@ -104,5 +105,11 @@ public class MFGT {
     public static void gotoFriendDetails(Context activity, InviteMessage msg) {
         startActivity((Activity) activity,new Intent(activity,FriendDetailsActivity.class)
         .putExtra(I.User.NICK,msg));
+    }
+
+    public static void gotoChat(Activity activity, String userName) {
+        startActivity(activity,new Intent(activity, ChatActivity.class)
+                .putExtra("userId", userName));
+
     }
 }

@@ -143,5 +143,8 @@ public class FriendDetailsActivity extends BaseActivity {
                     }
                 });
     }
-
+    @OnClick(R.id.btn_send_msg)
+    public void sendMsg() {
+        MFGT.gotoChat(FriendDetailsActivity.this,mUser.getMUserName());
+    }
 }

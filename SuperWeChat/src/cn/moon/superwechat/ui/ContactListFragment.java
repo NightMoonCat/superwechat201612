@@ -113,10 +113,8 @@ public class ContactListFragment extends EaseContactListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 User user = (User) listView.getItemAtPosition(position);
                 if (user != null) {
-//                    String username = user.getMUserName();
                     // demo中直接进入聊天页面，实际一般是进入用户详情页
                     MFGT.gotoFriendDetails(getActivity(),user);
-//                    startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
                 }
             }
         });
