@@ -138,7 +138,8 @@ public class ContactListFragment extends EaseContactListFragment {
             loadingView.setVisibility(View.VISIBLE);
         }
     }
-    
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
