@@ -170,14 +170,15 @@ public class EaseContactAdapter extends ArrayAdapter<User> implements SectionInd
                 results.values = copyUserList;
                 results.count = copyUserList.size();
             }else{
-                String prefixString = prefix.toString();
+                String prefixString = prefix.toString().toUpperCase();
                 final int count = mOriginalList.size();
                 final ArrayList<User> newValues = new ArrayList<User>();
                 for(int i=0;i<count;i++){
                     final User user = mOriginalList.get(i);
-                    String username = user.getMUserName();
-                    
-                    if(username.startsWith(prefixString)){
+                    String username = user.getMUserName().toUpperCase();
+                    String nickName = user.getMUserNick().toUpperCase();
+
+                    if(username.contains(prefixString) || nickName.contains(prefixString)){
                         newValues.add(user);
                     }
                     else{
