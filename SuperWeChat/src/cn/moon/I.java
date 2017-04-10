@@ -3,7 +3,11 @@ package cn.moon;
 public interface I {
 
 
-    public static interface User {
+    int REQUEST_CODE_PIC_CONTACT = 10010;
+	int REQUEST_CODE_PICK_PIC = 10011;
+	int REQUEST_CODE_CUTTING = 10012;
+
+	public static interface User {
 		String TABLE_NAME							=		"t_superwechat_user";
 		String USER_NAME 							= 		"m_user_name";					//用户账号
 		String PASSWORD 							= 		"m_user_password";				//用户密码

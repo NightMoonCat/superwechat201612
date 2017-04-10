@@ -123,7 +123,7 @@ public class MFGT {
         .putExtra(I.IS_FROM_CHAT,isChat));
     }
 
-    public static void gotoGroupPickContacts(Activity activity) {
-        startActivityForResult(activity,new Intent(activity,GroupPickContactsActivity.class),0);
+    public static void gotoGroupPickContacts(Activity activity,int i) {
+        startActivityForResult(activity,new Intent(activity,GroupPickContactsActivity.class),i);
     }
 }
