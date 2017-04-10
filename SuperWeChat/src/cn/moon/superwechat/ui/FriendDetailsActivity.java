@@ -1,12 +1,15 @@
 package cn.moon.superwechat.ui;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
@@ -147,5 +150,16 @@ public class FriendDetailsActivity extends BaseActivity {
     public void sendMsg() {
         MFGT.gotoChat(FriendDetailsActivity.this,mUser.getMUserName());
         MFGT.finish(FriendDetailsActivity.this);
+    }
+    @OnClick(R.id.btn_send_video)
+    public void startVideoCall() {
+        if (!EMClient.getInstance().isConnected())
+            Toast.makeText(FriendDetailsActivity.this, R.string.not_connect_to_server, Toast.LENGTH_SHORT).show();
+        else {
+            startActivity(new Intent(FriendDetailsActivity.this, VideoCallActivity.class)
+                    .putExtra("username", mUser.getMUserName())
+                    .putExtra("isComingCall", false));
+            // videoCallBtn.setEnabled(false);
+        }
     }
 }
