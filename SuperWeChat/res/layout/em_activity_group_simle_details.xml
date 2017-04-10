@@ -1,28 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#eee"
-    android:orientation="vertical" >
-
-    <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:background="#eee"
+              android:orientation="vertical">
+    <com.hyphenate.easeui.widget.EaseTitleBar
+        android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_top_bar"
-        android:background="@color/top_bar_normal_bg"
-        android:gravity="center_vertical" >
-		
-        <include 
-            layout="@layout/ease_commom_back_btn"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/Group_chat_information"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
-
+        android:layout_height="wrap_content"
+        app:titleBarLeftImage="@drawable/em_mm_title_back"
+        app:titleBarTitle="@string/Group_chat_information"
+        >
         <ProgressBar
             android:id="@+id/loading"
             android:layout_width="28dp"
@@ -31,8 +20,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
             android:visibility="visible" />
-    </RelativeLayout>
-
+    </com.hyphenate.easeui.widget.EaseTitleBar>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
