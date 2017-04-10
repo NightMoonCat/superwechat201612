@@ -234,22 +234,21 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                 for (int i = 0; i < count; i++) {
                     final EMConversation value = mOriginalValues.get(i);
                     String username = value.conversationId().toUpperCase();
+                    String nick = "";
 
                     EMGroup group = EMClient.getInstance().groupManager().getGroup(username);
-                    String nick = null;
 
                     if(group != null){
                         username = group.getGroupName().toUpperCase();
                     }else{
                         User user = EaseUserUtils.getAppUserInfo(username);
                         // TODO: not support Nick anymore
-//                        if(user != null && user.getMUserNick() != null)
-//                            username = user.getMUserNick().toUpperCase();
-//                        nick = user.getMUserNick().toUpperCase();
+                        if(user != null && user.getMUserNick() != null)
+                            nick = user.getMUserNick().toUpperCase();
                     }
 
                     // First match against the whole ,non-splitted value
-                    if (username.contains(prefixString)/*||nick.contains(prefixString)*/) {
+                    if (username.contains(prefixString)||nick.contains(prefixString)) {
                         newValues.add(value);
                     } else{
                           final String[] words = username.split(" ");
