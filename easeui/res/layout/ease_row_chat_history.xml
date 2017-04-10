@@ -35,24 +35,28 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="6dp"
-        android:layout_toRightOf="@id/avatar_container"
-        android:textColor="@color/list_itease_primary_color"
-        android:textSize="16sp" />
-
-    <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="7dp"
         android:layout_marginTop="6dp"
+        android:text="45445444"
         android:textColor="@color/list_itease_secondary_color"
         android:textSize="13sp" />
+    <TextView
+        android:id="@+id/name"
+        android:ems="1"
+        android:layout_toLeftOf="@id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="6dp"
+        android:text="123132454546545465465"
+        android:layout_toRightOf="@id/avatar_container"
+        android:textColor="@color/list_itease_primary_color"
+        android:textSize="16sp" />
+
 
     <ImageView
         android:id="@+id/msg_state"
