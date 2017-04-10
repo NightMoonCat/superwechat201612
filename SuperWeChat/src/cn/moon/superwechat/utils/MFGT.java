@@ -13,6 +13,7 @@ import cn.moon.superwechat.domain.InviteMessage;
 import cn.moon.superwechat.ui.AddContactActivity;
 import cn.moon.superwechat.ui.ChatActivity;
 import cn.moon.superwechat.ui.FriendDetailsActivity;
+import cn.moon.superwechat.ui.GroupPickContactsActivity;
 import cn.moon.superwechat.ui.GroupsActivity;
 import cn.moon.superwechat.ui.GuideActivity;
 import cn.moon.superwechat.ui.LoginActivity;
@@ -122,4 +123,7 @@ public class MFGT {
         .putExtra(I.IS_FROM_CHAT,isChat));
     }
 
+    public static void gotoGroupPickContacts(Activity activity) {
+        startActivityForResult(activity,new Intent(activity,GroupPickContactsActivity.class),0);
+    }
 }

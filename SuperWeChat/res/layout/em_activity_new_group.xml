@@ -15,12 +15,11 @@
         >
 
         <Button
-            android:id="@+id/btn_save"
+            android:id="@+id/btnGroupSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@drawable/ease_common_tab_bg"
-            android:onClick="save"
             android:text="@string/save"
             android:textColor="#fff"
             android:textSize="16sp"

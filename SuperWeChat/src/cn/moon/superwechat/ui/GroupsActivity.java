@@ -31,12 +31,13 @@ import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
-import cn.moon.superwechat.Constant;
-import cn.moon.superwechat.R;
-import cn.moon.superwechat.adapter.GroupAdapter;
 import com.hyphenate.exceptions.HyphenateException;
 
 import java.util.List;
+
+import cn.moon.superwechat.Constant;
+import cn.moon.superwechat.R;
+import cn.moon.superwechat.adapter.GroupAdapter;
 
 public class GroupsActivity extends BaseActivity {
 	public static final String TAG = "GroupsActivity";
