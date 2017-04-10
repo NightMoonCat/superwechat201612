@@ -51,7 +51,7 @@ public class FriendDetailsActivity extends BaseActivity {
     @BindView(R.id.btn_add_contact)
     Button mBtnAddContact;
     InviteMessage msg;
-
+    boolean isFriend = false;
     @Override
     protected void onCreate(Bundle saveInstance) {
         super.onCreate(saveInstance);
@@ -73,24 +73,32 @@ public class FriendDetailsActivity extends BaseActivity {
 
     private void initData() {
         mUser = (User) getIntent().getSerializableExtra(I.User.TABLE_NAME);
-        if (mUser != null) {
-            showUserInfo();
-        } else {
-            InviteMessage msg = (InviteMessage) getIntent().getSerializableExtra(I.User.NICK);
+        if (mUser == null) {
+            msg = (InviteMessage) getIntent().getSerializableExtra(I.User.NICK);
             if (msg != null) {
                 mUser = new User(msg.getFrom());
                 mUser.setMUserNick(msg.getNickName());
                 mUser.setAvatar(msg.getAvatar());
-                showUserInfo();
-            } else {
-                MFGT.finish(FriendDetailsActivity.this);
             }
+        }
+
+        if (mUser == null) {
+            String username = getIntent().getStringExtra(I.User.USER_NAME);
+            if (username != null) {
+                mUser = new User(username);
+            }
+        }
+        if (mUser == null) {
+            MFGT.finish(FriendDetailsActivity.this);
+        } else {
+            showUserInfo();
+            syncUserInfo();
         }
 
     }
 
     private void showUserInfo() {
-        boolean isFriend = SuperWeChatHelper.getInstance().getAppContactList().containsKey(mUser.getMUserName());
+        isFriend = SuperWeChatHelper.getInstance().getAppContactList().containsKey(mUser.getMUserName());
         if (isFriend) {
             SuperWeChatHelper.getInstance().saveAppContact(mUser);
         }
@@ -98,8 +106,6 @@ public class FriendDetailsActivity extends BaseActivity {
         EaseUserUtils.setAppUserNick(mUser, mTvNick);
         EaseUserUtils.setAppUserAvatar(FriendDetailsActivity.this,mUser,mIvAvatar);
         showFriend(isFriend);
-        syncUserInfo();
-
     }
 
     private void showFriend(boolean isFriend) {
@@ -134,7 +140,11 @@ public class FriendDetailsActivity extends BaseActivity {
                                         values.put(InviteMessgeDao.COLUMN_NAME_AVATAR,u.getAvatar());
                                         InviteMessgeDao dao = new InviteMessgeDao(FriendDetailsActivity.this);
                                         dao.updateMessage(msg.getId(),values);
+                                    } else if (isFriend) {
+                                        SuperWeChatHelper.getInstance().saveAppContact(u);
                                     }
+                                    mUser = u;
+                                    showUserInfo();
                                 }
                             }
                         }

@@ -106,6 +106,10 @@ public class MFGT {
         startActivity((Activity) activity,new Intent(activity,FriendDetailsActivity.class)
         .putExtra(I.User.NICK,msg));
     }
+    public static void gotoFriendDetails(Context activity, String username) {
+        startActivity((Activity) activity,new Intent(activity,FriendDetailsActivity.class)
+        .putExtra(I.User.USER_NAME,username));
+    }
 
     public static void gotoChat(Activity activity, String userName) {
         startActivity(activity,new Intent(activity, ChatActivity.class)
@@ -117,4 +121,5 @@ public class MFGT {
         startActivity(activity,new Intent(activity,MainActivity.class)
         .putExtra(I.IS_FROM_CHAT,isChat));
     }
+
 }
