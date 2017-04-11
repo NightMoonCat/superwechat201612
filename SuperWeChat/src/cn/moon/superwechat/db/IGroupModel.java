@@ -19,4 +19,6 @@ public interface IGroupModel {
     void findGroupByHxId(Context context, String hxid, OnCompleteListener<String> listener);
 
     void updateGroupNameByHxId(Context context, String hxid, String newName, OnCompleteListener<String> listener);
+
+    void findPublicGroupByHxId(Context context, String hxid, OnCompleteListener<String> listener);
 }

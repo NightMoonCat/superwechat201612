@@ -66,4 +66,13 @@ public class GroupModel implements IGroupModel {
                 .targetClass(String.class)
                 .execute(listener);
     }
+
+    @Override
+    public void findPublicGroupByHxId(Context context, String hxid, OnCompleteListener<String> listener) {
+        OkHttpUtils<String > utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_PUBLIC_GROUP_BY_HXID)
+                .addParam(I.Group.HX_ID,hxid)
+                .targetClass(String.class)
+                .execute(listener);
+    }
 }
