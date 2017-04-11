@@ -62,6 +62,8 @@ import cn.moon.superwechat.utils.MFGT;
 import cn.moon.superwechat.utils.Result;
 import cn.moon.superwechat.utils.ResultUtils;
 
+import static com.alimama.mobile.csdk.umupdate.a.f.bs;
+
 public class NewGroupActivity extends BaseActivity {
     private static final String TAG = "NewGroupActivity";
     @BindView(R.id.title_bar)
@@ -172,7 +174,7 @@ public class NewGroupActivity extends BaseActivity {
                     //在环信服务器上新建群组
                     EMGroup emGroup = EMClient.getInstance().groupManager().createGroup(groupName, desc, members, reason, option);
                     //在本地服务器新建群组
-                    createAppGroup(emGroup);
+                    createAppGroup(emGroup,members);
 
                 } catch (final HyphenateException e) {
                     runOnUiThread(new Runnable() {
@@ -201,24 +203,31 @@ public class NewGroupActivity extends BaseActivity {
         });
     }
 
-    private void createAppGroup(EMGroup emGroup) {
+    private void createAppGroup(final EMGroup emGroup, final String[] members) {
         if (emGroup != null) {
             mModel.newGroup(NewGroupActivity.this, emGroup.getGroupId(), emGroup.getGroupName(), emGroup.getDescription(),
                     emGroup.getOwner(), emGroup.isPublic(), emGroup.isAllowInvites(), avatarFile, new OnCompleteListener<String>() {
                         @Override
                         public void onSuccess(String s) {
-                            L.e(TAG, s);
+                            L.e(TAG, "createAppGroup,s"+bs);
                             boolean success = false;
                             if (s != null) {
                                 Result result = ResultUtils.getResultFromJson(s, Group.class);
                                 if (result != null && result.isRetMsg()) {
                                     Group group = (Group) result.getRetData();
                                     if (group != null) {
-                                        success = true;
+                                        if (members.length > 0) {
+                                            addMembers(emGroup.getGroupId(), getMembersString(members));
+                                        } else {
+                                            success = true;
+                                        }
+
                                     }
                                 }
                             }
-                            createSuccess(success);
+                            if (members.length <= 0) {
+                                createSuccess(success);
+                            }
                         }
 
                         @Override
@@ -228,6 +237,37 @@ public class NewGroupActivity extends BaseActivity {
                     });
         }
 
+    }
+
+    private String getMembersString(String[] members) {
+        StringBuilder str = new StringBuilder();
+        for (String member : members) {
+            str.append(member).append(",");
+        }
+        L.e(TAG,"getMembersString,str = "+str);
+        return str.toString();
+    }
+
+    private void addMembers(String hxid,String members) {
+        mModel.addMembers(NewGroupActivity.this, members, hxid, new OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                L.e(TAG,"addMembers,onSuccess,s = "+s);
+                boolean success = false;
+                if (s != null) {
+                    Result result = ResultUtils.getResultFromJson(s, Group.class);
+                    if (result != null && result.isRetMsg()) {
+                        success = true;
+                    }
+                }
+                createSuccess(success);
+            }
+
+            @Override
+            public void onError(String error) {
+                createSuccess(false);
+            }
+        });
     }
 
     private void showDialog() {
