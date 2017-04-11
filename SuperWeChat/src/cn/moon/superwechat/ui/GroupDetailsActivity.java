@@ -38,6 +38,7 @@ import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMPushConfigs;
+import com.hyphenate.easeui.domain.Group;
 import com.hyphenate.easeui.ui.EaseGroupListener;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
@@ -55,7 +56,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.moon.superwechat.R;
+import cn.moon.superwechat.db.GroupModel;
+import cn.moon.superwechat.db.IGroupModel;
+import cn.moon.superwechat.db.OnCompleteListener;
+import cn.moon.superwechat.utils.L;
 import cn.moon.superwechat.utils.MFGT;
+import cn.moon.superwechat.utils.Result;
+import cn.moon.superwechat.utils.ResultUtils;
 
 public class GroupDetailsActivity extends BaseActivity implements OnClickListener {
     private static final String TAG = "GroupDetailsActivity";
@@ -94,12 +101,16 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
     private List<String> blackList = Collections.synchronizedList(new ArrayList<String>());
 
     GroupChangeListener groupChangeListener;
+    IGroupModel mModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         groupId = getIntent().getStringExtra("groupId");
         group = EMClient.getInstance().groupManager().getGroup(groupId);
+
+
+        mModel = new GroupModel();
 
         // we are not supposed to show the group if we don't find the group
         if (group == null) {
@@ -733,6 +744,10 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                                         break;
                                     case R.id.menu_item_remove_member:
                                         EMClient.getInstance().groupManager().removeUserFromGroup(groupId, operationUserId);
+                                        L.e(TAG,"startstartstartstartstart");
+                                        getGroupIdAndRemoveMember(group.getGroupId());
+                                        L.e(TAG,"finish finish ");
+
                                         break;
                                     case R.id.menu_item_add_to_blacklist:
                                         EMClient.getInstance().groupManager().blockUser(groupId, operationUserId);
@@ -781,6 +796,52 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
             });
         }
         return dialog;
+    }
+
+    private void getGroupIdAndRemoveMember(String emGroupId) {
+        L.e(TAG,"emGroupId,"+emGroupId);
+        mModel.findGroupByHxId(GroupDetailsActivity.this, emGroupId, new OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                L.e(TAG,"onSuccess,s= "+s);
+                if (s != null) {
+                    Result result = ResultUtils.getResultFromJson(s, Group.class);
+                    if (result != null && result.isRetMsg()) {
+                        Group group = (Group) result.getRetData();
+                        L.e(TAG,"group,"+group.toString());
+                        removeMember(String.valueOf(group.getMGroupId()));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+
+    }
+    private void removeMember(String myGroupId) {
+        L.e(TAG,"myGroupId," +myGroupId);
+        mModel.deleteGroupMember(GroupDetailsActivity.this,myGroupId, operationUserId,
+                new OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                L.e(TAG,"removeMember(),s="+s);
+                if (s != null) {
+                    Result result = ResultUtils.getResultFromJson(s, Group.class);
+                    if (result != null && result.isRetMsg()) {
+                        Toast.makeText(GroupDetailsActivity.this, "成功了", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
     }
 
     void setVisibility(Dialog viewGroups, int[] ids, boolean[] visibilities) throws Exception {
