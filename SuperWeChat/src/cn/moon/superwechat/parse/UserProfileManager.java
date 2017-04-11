@@ -236,12 +236,9 @@ public class UserProfileManager {
                                 L.e(TAG, "asyncGetCurrentAppUserInfo,userInfo = " + user.toString());
 
                                 if (user != null) {
-                                    currentAppUser = user;
                                     L.e(TAG, "asyncGetCurrentAppUserInfo,userNick = " + user.getMUserNick());
-                                    setCurrentAppUserNick(user.getMUserNick());
-                                    setCurrentAppUserAvatar(user.getAvatar());
-                                    SuperWeChatHelper.getInstance().saveAppContact(user);
-
+                                    currentAppUser = user;
+                                    updateCurrentAppUserInfo(user);
                                 }
                             }
                         }
@@ -252,6 +249,12 @@ public class UserProfileManager {
                         L.e(TAG, "error=" + error);
                     }
                 });
+    }
+
+    public void updateCurrentAppUserInfo(User user) {
+        setCurrentAppUserNick(user.getMUserNick());
+        setCurrentAppUserAvatar(user.getAvatar());
+        SuperWeChatHelper.getInstance().saveAppContact(user);
     }
 
     public void asyncGetCurrentUserInfo() {

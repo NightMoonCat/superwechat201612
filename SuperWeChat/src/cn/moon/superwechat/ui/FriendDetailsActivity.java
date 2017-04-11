@@ -142,6 +142,10 @@ public class FriendDetailsActivity extends BaseActivity {
                                         dao.updateMessage(msg.getId(),values);
                                     } else if (isFriend) {
                                         SuperWeChatHelper.getInstance().saveAppContact(u);
+                                        if (u.getMUserName().equals(EMClient.getInstance().getCurrentUser())) {
+                                            SuperWeChatHelper.getInstance().getUserProfileManager().
+                                                    updateCurrentAppUserInfo(u);
+                                        }
                                     }
                                     mUser = u;
                                     showUserInfo();
