@@ -62,8 +62,6 @@ import cn.moon.superwechat.utils.MFGT;
 import cn.moon.superwechat.utils.Result;
 import cn.moon.superwechat.utils.ResultUtils;
 
-import static com.alimama.mobile.csdk.umupdate.a.f.bs;
-
 public class NewGroupActivity extends BaseActivity {
     private static final String TAG = "NewGroupActivity";
     @BindView(R.id.title_bar)
@@ -209,7 +207,7 @@ public class NewGroupActivity extends BaseActivity {
                     emGroup.getOwner(), emGroup.isPublic(), emGroup.isAllowInvites(), avatarFile, new OnCompleteListener<String>() {
                         @Override
                         public void onSuccess(String s) {
-                            L.e(TAG, "createAppGroup,s"+bs);
+                            L.e(TAG, "createAppGroup,s"+s);
                             boolean success = false;
                             if (s != null) {
                                 Result result = ResultUtils.getResultFromJson(s, Group.class);

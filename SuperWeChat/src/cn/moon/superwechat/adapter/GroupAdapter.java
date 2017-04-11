@@ -27,9 +27,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMGroup;
-import cn.moon.superwechat.R;
+import com.hyphenate.easeui.domain.Group;
+import com.hyphenate.easeui.utils.EaseUserUtils;
 
 import java.util.List;
+
+import cn.moon.superwechat.R;
 
 public class GroupAdapter extends ArrayAdapter<EMGroup> {
 
@@ -111,7 +114,8 @@ public class GroupAdapter extends ArrayAdapter<EMGroup> {
 				convertView = inflater.inflate(R.layout.em_row_group, parent, false);
 			}
 			((TextView) convertView.findViewById(R.id.name)).setText(getItem(position - 3).getGroupName());
-
+			EaseUserUtils.setGroupAvatar(getContext(), Group.getAvatar(getItem(position-3).getGroupId()),
+					(ImageView) convertView.findViewById(R.id.avatar));
 		}
 
 		return convertView;

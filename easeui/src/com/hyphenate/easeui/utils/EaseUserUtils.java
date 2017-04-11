@@ -74,10 +74,23 @@ public class EaseUserUtils {
                 Glide.with(context).load(avatarResId).into(imageView);
             } catch (Exception e) {
                 Glide.with(context).load(avatarPath).diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .placeholder(R.drawable.ease_default_avatar).into(imageView);
+                        .placeholder(R.drawable.default_hd_avatar).into(imageView);
             }
         }else{
-            Glide.with(context).load(R.drawable.ease_default_avatar).into(imageView);
+            Glide.with(context).load(R.drawable.default_hd_avatar).into(imageView);
+        }
+    }
+    public static void setGroupAvatar(Context context, String avatarPath, ImageView imageView) {
+        if(avatarPath != null){
+            try {
+                int avatarResId = Integer.parseInt(avatarPath);
+                Glide.with(context).load(avatarResId).into(imageView);
+            } catch (Exception e) {
+                Glide.with(context).load(avatarPath).diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.ease_group_icon).into(imageView);
+            }
+        }else{
+            Glide.with(context).load(R.drawable.ease_group_icon).into(imageView);
         }
     }
 
